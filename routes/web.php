@@ -17,9 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function(){
-    Route::get('/feed', function () {
-        return view('feed.index');
-    });
+    Route::get('/feed', [SessionController::class, 'show']);
     Route::post('/logout', [SessionController::class, 'destroy']);
 });
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -10,6 +11,11 @@ class SessionController extends Controller
 {
     public function index(){
         return view('guest.sign-in');
+    }
+
+    public function show(){
+        $posts = Post::paginate(5);
+        return view('feed.index', compact('posts'));
     }
 
     public function store(Request $request){
@@ -24,7 +30,7 @@ class SessionController extends Controller
         }
         Session::regenerate();
 
-        return redirect('/feed')->with('success','You are logged in!');
+        return view('/feed')->with('success','You are logged in!');
     }
 
     public function destroy(){
