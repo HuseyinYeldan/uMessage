@@ -1,5 +1,15 @@
-var typed = new Typed('#bodyText', {
-    strings: [`uMessage lets you share your opinions and ideas <span class="font-bold"> freely to the world. </span> It doesn't matter who is behind those ideas or opinions<span class="font-bold"> only thing that matters is your opinions and ideas.</span>`, `<span> Share what's on your mind freely.</span>`],
-    typeSpeed: 10,
-    loop:true,
+navUserDropdown = document.getElementById('navUserDropdown');
+userButton = document.getElementById('userButton');
+
+userButton.addEventListener('click', function(){
+    if(navUserDropdown.style.display == 'flex'){
+        navUserDropdown.style.display = 'none'
+        userButton.children[1].classList.add('fa-angle-down');
+
+    }
+    else{
+        navUserDropdown.style.display = 'flex'
+        userButton.children[1].classList.add('fa-angle-up');
+
+    }
 });

@@ -59,7 +59,7 @@
 <div class="w-screen h-screen absolute top-0 left-0 -z-50">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.dev/svgjs" width="1920" height="1080" preserveAspectRatio="none" viewBox="0 0 1920 1080">
         <g mask="url(&quot;#SvgjsMask1112&quot;)" fill="none">
-            <rect width="1920" height="1080" x="0" y="0" fill="rgba(35, 6, 22, 1)"></rect>
+            <rect width="1920" height="1080" x="0" y="0" fill="rgba(15, 6, 32, 1)"></rect>
             <path d="M316.06 185.08L327.02 191.7 322.97 203.85 333.93 210.47 329.88 222.62 340.84 229.24 336.79 241.39M308.55 187.85L319.52 194.47 315.46 206.61 326.42 213.23 322.37 225.38 333.33 232 329.28 244.15" stroke="rgba(105, 18, 78, 0.56)" stroke-width="2.27" stroke-dasharray="3, 3"></path>
             <path d="M755.88 1046.84L757.14 1059.58 744.99 1063.61 746.25 1076.36 734.09 1080.38 735.35 1093.13 723.2 1097.15M749.17 1042.48L750.43 1055.23 738.28 1059.25 739.54 1072 727.38 1076.02 728.64 1088.77 716.49 1092.8" stroke="rgba(115, 16, 149, 0.67)" stroke-width="1"></path>
             <path d="M1387.08 125.78L1386.26 138.56 1373.61 140.56 1372.79 153.34 1360.14 155.35 1359.32 168.13 1346.67 170.13" stroke="rgba(170, 40, 195, 0.65)" stroke-width="1.62" stroke-dasharray="3, 3"></path>
@@ -95,4 +95,11 @@
         </defs>
     </svg>
 </div>
+<script>
+    var typed = new Typed('#bodyText', {
+    strings: [`uMessage lets you share your opinions and ideas <span class="font-bold"> freely to the world. </span> It doesn't matter who is behind those ideas or opinions<span class="font-bold"> only thing that matters is your opinions and ideas.</span>`, `<span> Share what's on your mind freely.</span>`],
+    typeSpeed: 10,
+    loop:true,
+});
+</script>
 </x-layout>

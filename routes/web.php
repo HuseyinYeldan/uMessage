@@ -15,12 +15,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::middleware('auth')->group(function(){
+    Route::get('/feed', function () {
+        return view('feed.index');
+    });
+    Route::post('/logout', [SessionController::class, 'destroy']);
 });
 
 Route::middleware('guest')->group(function(){
     Route::get('/sign-up', [SignUpController::class, 'index'])->name('signUp');
-    Route::get('/sign-in', [SessionController::class, 'index'])->name('signIn');
+    Route::post('/sign-up', [SignUpController::class, 'store']);
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::get('/sign-in', [SessionController::class, 'index'])->name('login');
+    Route::post('/sign-in', [SessionController::class, 'store']);
+
 });
 
