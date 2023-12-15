@@ -1,6 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    .container {
+        @apply max-w-[1535px] xl:max-w-[1279px] lg:max-w-[1023px] md:max-w-[767px] sm:max-w-[639px];
+    }
+}
+
+@layer components {}
+@layer utilities {}
 *{
     font-family: 'Montserrat', sans-serif;
     margin: 0;
@@ -17,6 +26,15 @@
 .animation-bigger{
     animation: animation-bigger 5s infinite ease;
 }
+.tiltFirst{
+    animation: tiltFirst 10s infinite ease;
+}
+.tiltSecond{
+    animation: tiltSecond 10s infinite ease;
+}
+.scaleDown{
+    animation: scaleDown 1s 1 ease-in-out;
+}
 @keyframes animation-bigger {
     0%{
         width: 20rem;
@@ -31,4 +49,36 @@
         height:  20rem;
     }
     
+}
+@keyframes tiltFirst {
+    0%{
+        transform: rotate(6deg);
+    }
+    50%{
+        transform: rotate(-6deg);
+    }
+    100%{
+        transform: rotate(6deg);
+    }
+}
+@keyframes tiltSecond {
+    0%{
+        transform: rotate(-6deg);
+    }
+    50%{
+        transform: rotate(6deg);
+    }
+    100%{
+        transform: rotate(-6deg);
+    }
+}
+@keyframes scaleDown{
+    0%{
+        opacity: 0;
+        transform: scale(2);
+    }
+    100%{
+        opacity: 1;
+        transform: scale(1);
+    }
 }

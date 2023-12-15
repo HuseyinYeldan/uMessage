@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\SessionController;
+use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::middleware('guest')->group(function(){
+    Route::get('/sign-up', [SignUpController::class, 'index'])->name('signUp');
+    Route::get('/sign-in', [SessionController::class, 'index'])->name('signIn');
+});
+
