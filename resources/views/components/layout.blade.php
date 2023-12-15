@@ -14,7 +14,7 @@
     <title>Document</title>
 </head>
 
-<body class="bg-gray-900 ">
+<body>
 
     {{ $slot }}
 
