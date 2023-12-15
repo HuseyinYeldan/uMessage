@@ -19,6 +19,7 @@
                 </form>
             <p class="text-sm mt-2">Do you already have an account? <a href="/sign-in" class="text-purple-600 font-semibold">Sign In</a> </p>
             <div class="design">
+                <div class="box w-full h-full bg-purple-200 absolute left-0 top-0 -z-30"></div>
                 <div class="box w-72 h-40 bg-purple-500 absolute top-0 right-0 rounded-bl-3xl"></div>
                 <div class="box w-40 h-40 bg-purple-600 absolute top-40 right-0 rounded-bl-3xl -upDown -z-10"></div>
                 <div class="box w-40 h-24 bg-purple-600 absolute top-0 right-72 rounded-bl-3xl -leftRight -z-10"></div>

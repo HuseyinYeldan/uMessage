@@ -14,7 +14,7 @@ class SessionController extends Controller
     }
 
     public function show(){
-        $posts = Post::paginate(5);
+        $posts = Post::paginate(10);
         return view('feed.index', compact('posts'));
     }
 
@@ -30,7 +30,7 @@ class SessionController extends Controller
         }
         Session::regenerate();
 
-        return view('/feed')->with('success','You are logged in!');
+        return redirect('/')->with('success','You are logged in!');
     }
 
     public function destroy(){

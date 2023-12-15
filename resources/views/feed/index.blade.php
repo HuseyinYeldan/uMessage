@@ -10,7 +10,7 @@
 
         <div class="nav-user flex justify-center items-center relative">
             <button class="text-sm font-semibold mr-4" id="userButton">
-                <img src="{{ Auth::user()->avatar }}" alt="" class="inline rounded-full w-8 h-8 aspect-square object-cover" width="50" height="50">
+                <img src="storage/{{ Auth::user()->avatar }}" alt="" class="inline rounded-full w-8 h-8 aspect-square object-cover" width="50" height="50">
                 {{ Auth::user()->username }}
                 <i class="fa-solid fa-angle-down"></i> 
             </button>
@@ -26,9 +26,13 @@
     </div>
 
     <div class="feed px-[20%] flex flex-col justify-center items-center">
+            <label for="body" class="text-sm font-bold">Share your message</label>
+            <p class="text-xs">You are posting as <span class="font-bold">{{ Auth::user()->username }}</span> </p>
+            <textarea name="body" id="body" class="share-post flex w-3/5 h-40 mt-4 p-4 shadow-md border border-gray-400  duration-300 rounded outline-none resize-none hover:ring-2 hover:ring-purple-300" placeholder="What's on your mind?"></textarea>
+            <div class="w-3/5"><x-form.submit buttonText='Share'/></div>
 
         @foreach ($posts as $post)
-        <div class="post flex w-3/5 mt-4 mb-10 p-4 shadow-md duration-300 rounded hover:ring-2 hover:ring-purple-100">
+        <div class="post flex w-3/5 mt-8 mb-8 p-4 shadow-md duration-300 rounded hover:ring-2 hover:ring-purple-100">
             <img src="{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4" alt="">
 
             <div class="post-info flex justify-start flex-col">
@@ -46,7 +50,7 @@
             </div>
         </div>
         @endforeach
-        {{ $posts->links() }}
+        <div class="mb-8">{{ $posts->links() }}</div>
     </div>
 
     
