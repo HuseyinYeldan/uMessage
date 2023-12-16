@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
@@ -18,10 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware('auth')->group(function(){
-    Route::get('/feed', [SessionController::class, 'show']);
-    Route::post('/logout', [SessionController::class, 'destroy']);
+    Route::get('/feed', [PostController::class, 'index']);
+    Route::get('/profiles',[ProfileController::class, 'index']);
+    Route::get('/p/{user:username}',[ProfileController::class, 'show']);
 
+    Route::post('/logout', [SessionController::class, 'destroy']);
     Route::post('/share-post',[PostController::class, 'store'])->name('share.post');
+
 });
 
 Route::middleware('guest')->group(function(){
@@ -30,9 +34,7 @@ Route::middleware('guest')->group(function(){
     Route::get('/', function () {
         return view('welcome');
     });
-
     Route::get('/sign-in', [SessionController::class, 'index'])->name('login');
     Route::post('/sign-in', [SessionController::class, 'store']);
-
 });
 

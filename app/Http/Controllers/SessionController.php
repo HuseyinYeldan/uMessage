@@ -13,16 +13,7 @@ class SessionController extends Controller
         return view('guest.sign-in');
     }
 
-    public function show(Request $request)
-    {
-        $posts = Post::latest()->paginate(10);
     
-        if ($request->ajax()) {
-            return response()->json(['html' => view('auth._posts', compact('posts'))->render()]);
-        }
-    
-        return view('auth.index', compact('posts'));
-    }
     
     public function store(Request $request){
 

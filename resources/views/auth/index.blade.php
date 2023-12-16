@@ -4,30 +4,30 @@
 
     <div class="w-full flex justify-center items-center flex-col">
         <div class="w-3/5 lg:w-full">
-    
-        <div class="feed px-[20%] flex flex-col justify-center items-center lg:px-[5%]">
-            <label for="body" class="text-sm font-bold">Share your message</label>
-            <p class="text-xs">You are posting as <span class="font-bold">{{ Auth::user()->username }}</span> </p>
-    
-            <form action="/share-post" method="post" class="w-full flex justify-center  flex-col">
-                @csrf
-                <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500' />
-                <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
-                <p class="text-xs h-0 duration-300" id="charCount"></p>
-                <div class="w-full"><x-form.submit buttonText='Share'/></div>
-                
-            </form>
-    
-            <div id="posts-container" class="flex w-full flex-col justify-center items-center">
-                @include('auth._posts')
-                <div id="loading-indicator"
-                    class="hidden fixed bottom-4 bg-purple-500 px-8 py-2 rounded text-white font-semibold justify-center items-center gap-2">
-                    <i class="fa-solid fa-spinner fa-spin text-white"></i> Loading...
+
+            <div class="feed px-[20%] flex flex-col justify-center items-center lg:px-[5%]">
+                <label for="body" class="text-sm font-bold">Share your message</label>
+                <p class="text-xs">You are posting as <span class="font-bold">{{ Auth::user()->username }}</span> </p>
+
+                <form action="/share-post" method="post" class="w-full flex justify-center  flex-col">
+                    @csrf
+                    <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500' />
+                    <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
+                    <p class="text-xs h-0 duration-300" id="charCount"></p>
+                    <div class="w-full"><x-form.submit buttonText='Share' /></div>
+
+                </form>
+
+                <div id="posts-container" class="flex w-full flex-col justify-center items-center">
+                    @include('auth._posts')
+                    <div id="loading-indicator"
+                        class="hidden fixed bottom-4 bg-purple-500 px-8 py-2 rounded text-white font-semibold justify-center items-center gap-2">
+                        <i class="fa-solid fa-spinner fa-spin text-white"></i> Loading...
+                    </div>
                 </div>
+
             </div>
-    
         </div>
-    </div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -66,12 +66,12 @@
                     },
                     complete: function() {
                         $('#loading-indicator').addClass(
-                        'hidden'); // Hide loading indicator after content is loaded
+                            'hidden'); // Hide loading indicator after content is loaded
 
                         if (noMoreRecords) {
                             $('#posts-container').append(
                                 `<div id="no-more-records" class="text-gray-600 font-semibold my-4">You've reached to the end.</div>`
-                                );
+                            );
                         }
 
                         loading = false; // Set loading back to false to allow the next request
@@ -86,7 +86,7 @@
         let charCount = document.getElementById('charCount');
         let progress = document.getElementById('progress');
 
-        shareTextArea.addEventListener('keyup',function(){
+        shareTextArea.addEventListener('keyup', function() {
 
             let messageLength = shareTextArea.value.length;
             charCount.style.height = '10px'
@@ -94,32 +94,31 @@
 
             charCount.innerText = `Character Count: ${messageLength}/500`
             progress.style.width = `${messageLength/5}%`
-            if(shareTextArea.value.length == 500){
+            if (shareTextArea.value.length == 500) {
+                progress.classList.remove('bg-purple-600')
                 charCount.classList.remove('text-orange-400')
                 progress.classList.remove('bg-orange-400')
                 charCount.classList.add('text-red-500')
-                progress.classList.add('bg-red-500')
-            }
-            else if(shareTextArea.value.length >= 450){
+                progress.classList.add('bg-red-400')
+            } else if (shareTextArea.value.length >= 450) {
+                progress.classList.remove('bg-purple-600')
                 charCount.classList.remove('text-red-500')
-                progress.classList.remove('bg-red-500')
+                progress.classList.remove('bg-red-400')
                 charCount.classList.add('text-orange-400')
                 progress.classList.add('bg-orange-400')
-            }
-            else if(shareTextArea.value.length == 0){
+            } else if (shareTextArea.value.length == 0) {
                 charCount.innerText = ''
                 charCount.style.height = '0px'
                 progress.style.height = '0px'
-            }
-            else{
+            } else {
+                progress.classList.add('bg-purple-600')
                 charCount.classList.remove('text-red-500')
-                progress.classList.remove('bg-red-500')
+                progress.classList.remove('bg-red-400')
                 charCount.classList.remove('text-orange-400')
                 progress.classList.remove('bg-orange-400')
             }
 
         })
     </script>
-<script src="/js/app.js"></script>
 
 </x-layout>
