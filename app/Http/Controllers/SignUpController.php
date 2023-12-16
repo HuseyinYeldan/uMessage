@@ -16,7 +16,7 @@ class SignUpController extends Controller
         $attributes = $request->validate([
             'username' => 'required|alpha_dash|min:4|max:24|string|regex:/\w*$/|unique:users,username',
             'avatar' => 'image|max:4096',
-            'email' => 'required|email|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
             'password' => 'required|confirmed|min:8|max:64',
             'password_confirmation' => 'required|min:8|max:64',
         ]);

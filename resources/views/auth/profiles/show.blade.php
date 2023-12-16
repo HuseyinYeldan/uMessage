@@ -5,28 +5,69 @@
     <div class="w-full flex justify-center items-center flex-col">
         <div class="w-3/5 lg:w-full">
             <div class="flex mb-4 flex-col shadow-md">
-                <h2 class="text-4xl font-bold text-center">{{'@'.$user->username }}</h2>
-                @foreach ($userPost as $post)
-                <div class="post flex w-full mt-8 mb-8 p-4 shadow-md duration-300 rounded hover:ring-2 relative hover:ring-purple-100">
-                    <img src="/storage/{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0" alt="">
-                
-                    <div class="post-info flex justify-start flex-col">
-                        <a href="/p/{{ $post->user->username }}" class="font-semibold duration-300 hover:text-purple-600">{{ '@'.$post->user->username }}</a>
-                        <p class="text-xs text-gray-400 mt-1"> <i class="fa-regular fa-clock"></i> {{ $post->created_at->isToday() ? 'posted '. $post->created_at->diffForHumans() : 'posted at '. $post->created_at->format('F jS Y - H:m')}} @if($post->created_at != $post->updated_at) | Edited @endif </p>
-                        <p class="text-sm my-2 break-all">{{ $post->body }}</p>
-                        <span class="text-xs mt-2 flex items-center">
-                            <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400" class="likeButton"></i> <span>{{ number_format($post->likes) }} likes</span>
-                            <i class="fa-regular fa-comment text-xl ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-400" class="likeButton"></i> <span>3 comments</span>
-                        </span>
-                    </div>
-                
-                    <div class="post-other absolute right-2">
-                        <i class="fa-solid fa-ellipsis cursor-pointer text-xl"></i>
+                <h2 class="text-4xl font-bold text-center">{{ '@' . $user->username }}</h2>
+                <div id="posts-container" class="flex w-full flex-col justify-center items-center">
+                    @include('auth._posts')
+                    <div id="loading-indicator"
+                        class="hidden fixed bottom-4 bg-purple-500 px-8 py-2 rounded text-white font-semibold justify-center items-center gap-2">
+                        <i class="fa-solid fa-spinner fa-spin text-white"></i> Loading...
                     </div>
                 </div>
-                @endforeach
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var page = 2; // Initial page number
+            var loading = false; // Flag to prevent multiple simultaneous requests
+            var noMoreRecords = false; // Flag to track if there are no more records
+
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() && !loading && !
+                    noMoreRecords) {
+                    loadMoreData(page);
+                    page++;
+                }
+            });
+
+            function loadMoreData(page) {
+                loading = true; // Set loading to true to prevent multiple requests
+
+                $('#loading-indicator').removeClass('hidden'); // Show loading indicator
+
+                $.ajax({
+                    url: '?page=' + page,
+                    type: 'GET',
+                    beforeSend: function() {
+                        // You can add a loading spinner or message here if needed
+                    },
+                    success: function(data) {
+                        if (data.html == "") {
+                            noMoreRecords = true; // Set flag to true when there are no more records
+                        } else {
+                            $('#posts-container').append(data.html);
+                        }
+                    },
+                    complete: function() {
+                        $('#loading-indicator').addClass(
+                            'hidden'); // Hide loading indicator after content is loaded
+
+                        if (noMoreRecords) {
+                            $('#posts-container').append(
+                                `<div id="no-more-records" class="text-gray-600 font-semibold my-4">You've reached to the end.</div>`
+                            );
+                        }
+
+                        loading = false; // Set loading back to false to allow the next request
+                    }
+                });
+            }
+        });
+    </script>
+
+
 
 </x-layout>

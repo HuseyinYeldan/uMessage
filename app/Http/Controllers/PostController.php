@@ -14,7 +14,6 @@ class PostController extends Controller
         ]);
 
         $data['user_id'] = Auth::user()->id;
-        $data['likes'] = null;
 
         Post::create($data);
 

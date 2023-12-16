@@ -27,7 +27,7 @@ class SessionController extends Controller
         }
         Session::regenerate();
 
-        return redirect('/')->with('success','You are logged in!');
+        return redirect('/feed')->with('success','You are logged in!');
     }
 
     public function destroy(){

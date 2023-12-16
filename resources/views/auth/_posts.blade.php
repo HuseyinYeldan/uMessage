@@ -7,7 +7,7 @@
         <p class="text-xs text-gray-400 mt-1"> <i class="fa-regular fa-clock"></i> {{ $post->created_at->isToday() ? 'posted '. $post->created_at->diffForHumans() : 'posted at '. $post->created_at->format('F jS Y - H:m')}} @if($post->created_at != $post->updated_at) | Edited @endif </p>
         <p class="text-sm my-2 break-all">{{ $post->body }}</p>
         <span class="text-xs mt-2 flex items-center">
-            <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400" class="likeButton"></i> <span>{{ number_format($post->likes) }} likes</span>
+            <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400" class="likeButton"></i> <span>23 likes</span>
             <i class="fa-regular fa-comment text-xl ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-400" class="likeButton"></i> <span>3 comments</span>
         </span>
     </div>

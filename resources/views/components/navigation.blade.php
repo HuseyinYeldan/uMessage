@@ -8,14 +8,14 @@
 
     <div class="nav-user flex justify-center items-center relative ">
         <button class="text-sm font-semibold mr-4" id="userButton">
-            <img src="storage/{{ Auth::user()->avatar }}" alt=""
+            <img src="/storage/{{ Auth::user()->avatar }}" alt=""
                 class="inline rounded-full w-8 h-8 aspect-square object-cover" width="50" height="50">
             <span class="md:hidden">{{ Auth::user()->username }}</span>
             <i class="fa-solid fa-angle-down duration-200" id='navUserDropdownIcon'></i>
         </button>
         <div id="navUserDropdown"
             class="w-40 bg-white shadow-md absolute top-10 rounded-b duration-300 hidden justify-center items-center flex-col gap-4 p-2">
-            <a href="/profile" class="w-full text-gray-800 text-xs font-semibold rounded"><i
+            <a href="/p/{{ Auth::user()->username }}" class="w-full text-gray-800 text-xs font-semibold rounded"><i
                     class="fa-solid fa-user"></i> Profile</a>
             <a href="/settings" class="w-full text-gray-800 text-xs font-semibold rounded"><i
                     class="fa-solid fa-gear"></i> Settings</a>

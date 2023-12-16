@@ -20,7 +20,6 @@ class PostFactory extends Factory
         return [
             'user_id' => User::factory(),
             'body' => fake()->paragraphs(3,true),
-            'likes' => fake()->unique()->randomNumber(),
         ];
     }
 }

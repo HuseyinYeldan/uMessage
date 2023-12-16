@@ -12,9 +12,12 @@ class ProfileController extends Controller
 
         return view('auth.profiles.index', compact('users'));
     }
-    public function show(User $user){
-        $userPost = $user->posts()->latest()->paginate(2);
-        return view('auth.profiles.show', compact('user', 'userPost'));
+    public function show(User $user, Request $request){
+        $posts = $user->posts()->latest()->paginate(10);
+        if($request->ajax()){
+            return response()->json(['html'=> view('auth._posts',compact('user','posts'))->render()]);
+        }
+        return view('auth.profiles.show', compact('user', 'posts'));
     }
     
 }
