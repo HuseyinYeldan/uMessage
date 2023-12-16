@@ -13,7 +13,36 @@
     </div>
 
     <div class="post-other absolute right-2">
-        <i class="fa-solid fa-ellipsis cursor-pointer text-xl"></i>
+        <button class="profileOther w-8 h-8"><i class="fa-solid fa-ellipsis text-xl relative -z-20 "></i></button>
+        <div class="absolute hidden w-24 h-16 rounded flex-col bg-white shadow-md">
+            <a href="" class="flex rounded-t justify-center items-center flex-1 text-center duration-300 bg-yellow-400 font-bold text-xs text-yellow-900 hover:bg-yellow-500 ">Edit Post</a>
+            <a href="" class="flex rounded-b justify-center items-center flex-1 text-center duration-300 bg-red-400 font-bold text-red-900 text-xs hover:bg-red-500">Delete Post</a>
+        </div>
     </div>
 </div>
 @endforeach
+
+<script>
+    let profileOther = document.getElementsByClassName('profileOther');
+    
+    for (let i = 0; i < profileOther.length; i++) {
+
+        profileOther[i].addEventListener('click',function(e){
+
+            for (let j = 0; j < profileOther.length; j++) {
+                profileOther[j].parentNode.children[1].classList.remove('flex')
+                profileOther[j].parentNode.children[1].classList.add('hidden')
+            }
+
+            console.log(profileOther[i].parentNode.children[1]);
+            if(e.target.parentNode.children[1].classList.contains('hidden')){
+                e.target.parentNode.children[1].classList.remove('hidden')
+                e.target.parentNode.children[1].classList.add('flex')
+            }
+            else{
+                e.target.parentNode.children[1].classList.add('hidden')
+                e.target.parentNode.children[1].classList.remove('flex')
+            }
+        })
+    }
+</script>
