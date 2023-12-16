@@ -1,15 +1,18 @@
-navUserDropdown = document.getElementById('navUserDropdown');
-userButton = document.getElementById('userButton');
+window.onload = (e) => {
+    navUserDropdown = document.getElementById('navUserDropdown');
+    navUserDropdownIcon = document.getElementById('navUserDropdownIcon');
 
-userButton.addEventListener('click', function(){
-    if(navUserDropdown.style.display == 'flex'){
-        navUserDropdown.style.display = 'none'
-        userButton.children[1].classList.add('fa-angle-down');
+    userButton = document.getElementById('userButton');
 
-    }
-    else{
-        navUserDropdown.style.display = 'flex'
-        userButton.children[1].classList.add('fa-angle-up');
+    userButton.addEventListener('click', function () {
+        if (navUserDropdown.style.display == 'flex') {
+            navUserDropdown.style.display = 'none'
+            navUserDropdownIcon.style.transform = 'rotate(0deg)'
+        }
+        else {
+            navUserDropdown.style.display = 'flex'
+            navUserDropdownIcon.style.transform = 'rotate(-180deg)'
+        }
+    });
 
-    }
-});
+}

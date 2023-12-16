@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PostController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\SignUpController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth')->group(function(){
     Route::get('/feed', [SessionController::class, 'show']);
     Route::post('/logout', [SessionController::class, 'destroy']);
+
+    Route::post('/share-post',[PostController::class, 'store'])->name('share.post');
 });
 
 Route::middleware('guest')->group(function(){
