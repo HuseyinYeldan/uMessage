@@ -80,47 +80,47 @@
     </script>
 
     
-<script>
-    let profileOther = document.querySelectorAll('.profileOther');
+    <script>
+        let profileOther = document.querySelectorAll('.profileOther');
 
-    profileOther.forEach((button) => {
-        button.addEventListener('click', (e) => {
-            const menu = e.currentTarget.nextElementSibling;
+        profileOther.forEach((button) => {
+            button.addEventListener('click', (e) => {
+                const menu = e.currentTarget.nextElementSibling;
 
-            profileOther.forEach((otherButton) => {
-                const otherMenu = otherButton.nextElementSibling;
-                if (otherMenu !== menu) {
-                    otherMenu.classList.remove('flex');
-                    otherMenu.classList.add('hidden');
-                }
+                profileOther.forEach((otherButton) => {
+                    const otherMenu = otherButton.nextElementSibling;
+                    if (otherMenu !== menu) {
+                        otherMenu.classList.remove('flex');
+                        otherMenu.classList.add('hidden');
+                    }
+                });
+
+                menu.classList.toggle('hidden');
+                menu.classList.toggle('flex');
+
+                // Add event listener to close the menu when clicking outside
+                document.addEventListener('click', closeMenuOutside);
             });
-
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-
-            // Add event listener to close the menu when clicking outside
-            document.addEventListener('click', closeMenuOutside);
         });
-    });
 
-    function closeMenuOutside(e) {
-        if (!e.target.closest('.post-other')) {
-            profileOther.forEach((button) => {
-                const menu = button.nextElementSibling;
-                menu.classList.remove('flex');
-                menu.classList.add('hidden');
-            });
+        function closeMenuOutside(e) {
+            if (!e.target.closest('.post-other')) {
+                profileOther.forEach((button) => {
+                    const menu = button.nextElementSibling;
+                    menu.classList.remove('flex');
+                    menu.classList.add('hidden');
+                });
 
-            document.removeEventListener('click', closeMenuOutside);
+                document.removeEventListener('click', closeMenuOutside);
+            }
         }
-    }
-</script>
+    </script>
 
 
     <script>
         let shareTextArea = document.getElementById('body');
         let charCount = document.getElementById('charCount');
-        let progress = document.getElementById('"pro"gress');
+        let progress = document.getElementById('progress');
 
         shareTextArea.addEventListener('keyup', function() {
 
