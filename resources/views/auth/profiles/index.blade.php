@@ -20,6 +20,9 @@
                     </div>
                 </div>
                 @endforeach
+                <div class="mb-4">
+                    {{ $users->links() }}
+                </div>
             </div>
         </div>
     </div>

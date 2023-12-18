@@ -1,6 +1,6 @@
 @foreach ($posts as $post)
 <div class="post flex w-full mt-8 mb-8 p-4 shadow-md border border-gray-200 duration-300 rounded hover:ring-2 relative hover:ring-purple-300">
-    <img src="/storage/{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0" alt="">
+    <img src="{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0" alt="">
 
     <div class="post-info flex justify-start flex-col">
         <a href="/p/{{ $post->user->username }}" class="font-semibold duration-300 hover:text-purple-600">{{ '@'.$post->user->username }}</a>
@@ -22,39 +22,3 @@
 </div>
 @endforeach
 
-
-<script>
-    let profileOther = document.querySelectorAll('.profileOther');
-
-    profileOther.forEach((button) => {
-        button.addEventListener('click', (e) => {
-            const menu = e.currentTarget.nextElementSibling;
-
-            profileOther.forEach((otherButton) => {
-                const otherMenu = otherButton.nextElementSibling;
-                if (otherMenu !== menu) {
-                    otherMenu.classList.remove('flex');
-                    otherMenu.classList.add('hidden');
-                }
-            });
-
-            menu.classList.toggle('hidden');
-            menu.classList.toggle('flex');
-
-            // Add event listener to close the menu when clicking outside
-            document.addEventListener('click', closeMenuOutside);
-        });
-    });
-
-    function closeMenuOutside(e) {
-        if (!e.target.closest('.post-other')) {
-            profileOther.forEach((button) => {
-                const menu = button.nextElementSibling;
-                menu.classList.remove('flex');
-                menu.classList.add('hidden');
-            });
-
-            document.removeEventListener('click', closeMenuOutside);
-        }
-    }
-</script>

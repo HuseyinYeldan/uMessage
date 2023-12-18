@@ -21,7 +21,7 @@
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
                     @include('auth._posts')
                     <div id="loading-indicator"
-                        class="hidden fixed bottom-4 bg-purple-500 px-8 py-2 rounded text-white font-semibold justify-center items-center gap-2">
+                        class="hidden fixed z-50 bottom-4 bg-purple-500 px-8 py-2 rounded text-white font-semibold justify-center items-center gap-2">
                         <i class="fa-solid fa-spinner fa-spin text-white"></i> Loading...
                     </div>
                 </div>
@@ -65,9 +65,7 @@
                         }
                     },
                     complete: function() {
-                        $('#loading-indicator').addClass(
-                            'hidden'); // Hide loading indicator after content is loaded
-
+                        $('#loading-indicator').addClass('hidden');
                         if (noMoreRecords) {
                             $('#posts-container').append(
                                 `<div id="no-more-records" class="text-gray-600 font-semibold my-4">You've reached to the end.</div>`
@@ -81,10 +79,48 @@
         });
     </script>
 
+    
+<script>
+    let profileOther = document.querySelectorAll('.profileOther');
+
+    profileOther.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const menu = e.currentTarget.nextElementSibling;
+
+            profileOther.forEach((otherButton) => {
+                const otherMenu = otherButton.nextElementSibling;
+                if (otherMenu !== menu) {
+                    otherMenu.classList.remove('flex');
+                    otherMenu.classList.add('hidden');
+                }
+            });
+
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+
+            // Add event listener to close the menu when clicking outside
+            document.addEventListener('click', closeMenuOutside);
+        });
+    });
+
+    function closeMenuOutside(e) {
+        if (!e.target.closest('.post-other')) {
+            profileOther.forEach((button) => {
+                const menu = button.nextElementSibling;
+                menu.classList.remove('flex');
+                menu.classList.add('hidden');
+            });
+
+            document.removeEventListener('click', closeMenuOutside);
+        }
+    }
+</script>
+
+
     <script>
         let shareTextArea = document.getElementById('body');
         let charCount = document.getElementById('charCount');
-        let progress = document.getElementById('progress');
+        let progress = document.getElementById('"pro"gress');
 
         shareTextArea.addEventListener('keyup', function() {
 
