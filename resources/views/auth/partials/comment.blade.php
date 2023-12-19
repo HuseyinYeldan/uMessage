@@ -1,5 +1,5 @@
-<div class="comment mt-4 flex p-2 rounded overflow-hidden shadow-md border border-gray-200 relative z-20">
-    <img src="/storage/{{ $comment->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0"
+<div class="comment mt-4 flex p-2 rounded  shadow-md border border-gray-200 relative z-20 after:absolute after:w-4 after:border-[6px] after:rounded-full after:border-white after:h-full after:-left-5 after:bg-purple-100 after:cursor-pointer">
+    <img src="/storage/{{ $comment->user->avatar }}" class="rounded-full h-12 aspect-square mr-4 flex-shrink-0"
         alt="">
     <div class="comment-info">
         <a href="/p/{{ $comment->user->username }}"
@@ -8,7 +8,7 @@
             @if ($comment->created_at != $comment->updated_at)
                 | Edited
             @endif </p>
-        <p class="text-sm">{{ $comment->content }}</p>
+        <p class="text-sm ">{{ $comment->content }}</p>
         <span class="text-xs mt-4 flex items-center">
             <i class="fa-regular fa-heart text-sm mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"
                 class="commentLikeButton"></i> <span>3 likes</span>
@@ -27,9 +27,12 @@
 </div>
 </a>
 @if ($comment->replies->count() > 0)
-<div class="ml-6 mt-4">
-    @foreach ($comment->replies as $reply)
-        @include('auth.partials.comment', ['comment' => $reply])
-    @endforeach
+<div class="reply-container relative">
+    <div class="ml-6 mt-4">
+        @foreach ($comment->replies as $reply)
+            @include('auth.partials.comment', ['comment' => $reply])
+        @endforeach
+    </div>
 </div>
 @endif
+    

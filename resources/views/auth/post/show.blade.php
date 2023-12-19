@@ -12,7 +12,7 @@
                 
                         <div class="post-info flex justify-start flex-col">
                             <a href="/p/{{ $post->user->username }}"
-                                class="font-semibold duration-300 hover:text-purple-600">{{ '@' . $post->user->username }}</a>
+                                class="font-semibold duration-300 w-fit hover:text-purple-600">{{ '@' . $post->user->username }}</a>
                             <p class="text-xs text-gray-400 mt-1"> <i class="fa-regular fa-clock"></i>
                                 {{ $post->created_at->isToday() ? 'posted ' . $post->created_at->diffForHumans() : 'posted at ' . $post->created_at->format('F jS Y - H:m') }}
                                 @if ($post->created_at != $post->updated_at)
@@ -93,4 +93,42 @@
             }
         });
     </script>
+
+<script>
+    document.addEventListener('click', function (e) {
+        const clickedButton = e.target.closest('.replyButton');
+        if (clickedButton) {
+            const commentContainer = clickedButton.closest('.comment');
+            const replyForm = commentContainer.querySelector('.replyForm');
+            
+            // Close all open reply forms
+            document.querySelectorAll('.replyForm').forEach(form => {
+                if (form !== replyForm) {
+                    form.classList.add('hidden');
+                }
+            });
+
+            if (replyForm) {
+                replyForm.classList.toggle('hidden');
+            }
+        }
+    });
+</script>
+
+    
+    <script>
+        document.addEventListener('click',function(e){
+            
+            if(e.target.classList.contains('comment')){
+                e.target.children[1].children[1].classList.toggle('hidden')
+                e.target.children[1].children[2].classList.toggle('hidden')
+                e.target.children[1].children[3].classList.toggle('hidden')
+                e.target.children[0].classList.toggle('h-12')
+                e.target.children[0].classList.toggle('h-8')
+            }
+
+        })
+    </script>
+    
+
 </x-layout>

@@ -200,5 +200,18 @@
         }
     });
 </script>
+<script>
+    document.addEventListener('click',function(e){
+        
+        if(e.target.classList.contains('comment')){
+            e.target.children[1].children[1].classList.toggle('hidden')
+            e.target.children[1].children[2].classList.toggle('hidden')
+            e.target.children[1].children[3].classList.toggle('hidden')
+            e.target.children[0].classList.toggle('h-12')
+            e.target.children[0].classList.toggle('h-8')
+        }
+
+    })
+</script>
 
 </x-layout>
