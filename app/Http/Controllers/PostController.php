@@ -22,7 +22,7 @@ class PostController extends Controller
     }
     public function index(Request $request)
     {
-        $posts = Post::with('comments.recursiveReplies')->paginate(10);
+        $posts = Post::with('comments.recursiveReplies')->latest()->paginate(5);
 
         if ($request->ajax()) {
             return response()->json(['html' => view('auth._posts', compact('posts'))->render()]);

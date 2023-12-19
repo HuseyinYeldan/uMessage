@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
@@ -26,8 +27,8 @@ Route::middleware('auth')->group(function(){
     Route::post('/logout', [SessionController::class, 'destroy']);
     Route::post('/share-post',[PostController::class, 'store'])->name('share.post');
 
-    Route::post('/reply',function(){})->name('post.reply');
-
+    Route::post('/comment', [CommentController::class, 'commentStore'])->name('post.comment');
+    Route::post('/reply', [CommentController::class, 'replyStore'])->name('post.reply');
 });
 
 Route::middleware('guest')->group(function(){

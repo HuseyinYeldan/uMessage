@@ -30,54 +30,6 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-    <script>
-        $(document).ready(function() {
-            var page = 2; // Initial page number
-            var loading = false; // Flag to prevent multiple simultaneous requests
-            var noMoreRecords = false; // Flag to track if there are no more records
-
-            $(window).scroll(function() {
-                if ($(window).scrollTop() + $(window).height() >= $(document).height() && !loading && !
-                    noMoreRecords) {
-                    loadMoreData(page);
-                    page++;
-                }
-            });
-
-            function loadMoreData(page) {
-                loading = true; // Set loading to true to prevent multiple requests
-
-                $('#loading-indicator').removeClass('hidden'); // Show loading indicator
-
-                $.ajax({
-                    url: '?page=' + page,
-                    type: 'GET',
-                    beforeSend: function() {
-                        // You can add a loading spinner or message here if needed
-                    },
-                    success: function(data) {
-                        if (data.html == "") {
-                            noMoreRecords = true; // Set flag to true when there are no more records
-                        } else {
-                            $('#posts-container').append(data.html);
-                        }
-                    },
-                    complete: function() {
-                        $('#loading-indicator').addClass('hidden');
-                        if (noMoreRecords) {
-                            $('#posts-container').append(
-                                `<div id="no-more-records" class="text-gray-600 font-semibold my-4">You've reached to the end.</div>`
-                            );
-                        }
-
-                        loading = false; // Set loading back to false to allow the next request
-                    }
-                });
-            }
-        });
-    </script>
 
     
     <script>
@@ -156,5 +108,97 @@
 
         })
     </script>
+<script>
+    function toggleComments(post) {
+        const commentsContainer = post.nextElementSibling;
+        // Check if commentsContainer exists
+        if (commentsContainer) {
+            commentsContainer.classList.toggle('hidden');
+        }
+    }
+
+    // Event listener for comment buttons
+    document.addEventListener('click', function(e) {
+        const clickedButton = e.target.closest('.commentButton');
+
+        // Check if the click target is a comment button
+        if (clickedButton) {
+            const post = clickedButton.closest('.post');
+
+            // Check if a post element is found
+            if (post) {
+                toggleComments(post);
+            }
+        }
+    });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        var page = 2; // Initial page number
+        var loading = false; // Flag to prevent multiple simultaneous requests
+        var noMoreRecords = false; // Flag to track if there are no more records
+
+        $(window).scroll(function() {
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() && !loading && !
+                noMoreRecords) {
+                loadMoreData(page);
+                page++;
+            }
+        });
+
+        function loadMoreData(page) {
+            loading = true; // Set loading to true to prevent multiple requests
+
+            $('#loading-indicator').removeClass('hidden'); // Show loading indicator
+
+            $.ajax({
+                url: '?page=' + page,
+                type: 'GET',
+                beforeSend: function() {
+                    // You can add a loading spinner or message here if needed
+                },
+                success: function(data) {
+                    if (data.html == "") {
+                        noMoreRecords = true; // Set flag to true when there are no more records
+                    } else {
+                        $('#posts-container').append(data.html);
+                    }
+                },
+                complete: function() {
+                    $('#loading-indicator').addClass('hidden');
+                    if (noMoreRecords) {
+                        $('#posts-container').append(
+                            `<div id="no-more-records" class="text-gray-600 font-semibold my-4">You've reached to the end.</div>`
+                        );
+                    }
+                    loading = false; // Set loading back to false to allow the next request
+                }
+            });
+        }
+    });
+</script>
+<script>
+    document.addEventListener('click', function (e) {
+        const clickedButton = e.target.closest('.replyButton');
+        if (clickedButton) {
+            const commentContainer = clickedButton.closest('.comment');
+            const replyForm = commentContainer.querySelector('.replyForm');
+            
+            // Close all open reply forms
+            document.querySelectorAll('.replyForm').forEach(form => {
+                if (form !== replyForm) {
+                    form.classList.add('hidden');
+                }
+            });
+
+            if (replyForm) {
+                replyForm.classList.toggle('hidden');
+            }
+        }
+    });
+</script>
 
 </x-layout>

@@ -1,6 +1,6 @@
 @foreach ($posts as $post)
     <div class="post flex w-full mt-8 p-4 shadow-md border border-gray-200 duration-300 rounded relative">
-        <img src="{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0"
+        <img src="/storage/{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0"
             alt="">
 
         <div class="post-info flex justify-start flex-col">
@@ -43,11 +43,11 @@
         </div>
 
     </div>
-    <div class="comments duration-300 shadow-inner w-full hidden p-4 mb-8 bg-white border border-gray-200 rounded-b">
-        <div class="mb-4">
-            <form action="/" method="post">
+    <div class="comments duration-300 shadow-inner w-full hidden p-4 bg-white border border-gray-200 rounded-b">
+        <div class="mb-2">
+            <form action="{{ route('post.comment', ['post' => $post->id]) }}" method="post">
                 @csrf
-                <a href="#" class="flex mb-2 items-center w-fit"><img src="/storage/{{ Auth::user()->avatar }}" class="w-8 h-8 shadow-md rounded-full flex-shrink-0 mr-2 bg-white" alt=""> <span class="duration-300 font-bold hover:text-purple-700"> {{ '@'.Auth::user()->username }} </span> </a>
+                <a href="/p/{{ Auth::user()->username }}" class="flex mb-2 items-center w-fit"><img src="/storage/{{ Auth::user()->avatar }}" class="w-8 h-8 shadow-md rounded-full flex-shrink-0 mr-2 bg-white" alt=""> <span class="duration-300 font-bold hover:text-purple-700"> {{ '@'.Auth::user()->username }} </span> </a>
                 <textarea name="content" placeholder="Comment to this post" maxlength="500" class="border outline-none focus:border-purple-300 placeholder:text-sm text-sm resize-none w-full p-2"></textarea>
                 <button type="submit" class="bg-purple-500 text-white text-xs px-4 py-2">Comment</button>
             </form>
@@ -59,27 +59,5 @@
 
 @endforeach
 
-<script>
-    function toggleComments(post) {
-        const commentsContainer = post.nextElementSibling;
-        // Check if commentsContainer exists
-        if (commentsContainer) {
-            commentsContainer.classList.toggle('hidden');
-        }
-    }
 
-    // Event listener for comment buttons
-    document.addEventListener('click', function(e) {
-        const clickedButton = e.target.closest('.commentButton');
 
-        // Check if the click target is a comment button
-        if (clickedButton) {
-            const post = clickedButton.closest('.post');
-
-            // Check if a post element is found
-            if (post) {
-                toggleComments(post);
-            }
-        }
-    });
-</script>
