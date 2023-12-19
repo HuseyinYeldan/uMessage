@@ -44,24 +44,19 @@
 
     </div>
     <div class="comments duration-300 shadow-inner w-full hidden p-4 mb-8 bg-white border border-gray-200 rounded-b">
-        @foreach ($post->comments as $comment)
-            <div class="comment mb-6 flex" style="{{ $comment->parent_id?'margin-left:'.$comment->parent_id*2 ."rem":'' }}">
-                <img src="{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0"
-                    alt="">
-                <div class="comment-info">
-                    <a href="/p/{{ $post->user->username }}"
-                        class="font-semibold duration-300 text-xs hover:text-purple-600">{{ '@' . $post->user->username }}</a>
-                    <p class="text-sm">{{ $comment->content }}</p>
-                    <span class="text-xs mt-2 flex items-center">
-                        <i class="fa-regular fa-heart text-sm mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"
-                            class="commentLikeButton"></i> <span>3 likes</span>
-                        <i class="fa-regular fa-comment text-sm ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"
-                            class="replyButton"></i> <span>Reply</span>
-                    </span>
-                </div>
-            </div>
+        <div class="mb-4">
+            <form action="/" method="post">
+                @csrf
+                <a href="#" class="flex mb-2 items-center w-fit"><img src="/storage/{{ Auth::user()->avatar }}" class="w-8 h-8 shadow-md rounded-full flex-shrink-0 mr-2 bg-white" alt=""> <span class="duration-300 font-bold hover:text-purple-700"> {{ '@'.Auth::user()->username }} </span> </a>
+                <textarea name="content" placeholder="Comment to this post" maxlength="500" class="border outline-none focus:border-purple-300 placeholder:text-sm text-sm resize-none w-full p-2"></textarea>
+                <button type="submit" class="bg-purple-500 text-white text-xs px-4 py-2">Comment</button>
+            </form>
+        </div>
+        @foreach ($post->comments->where('parent_id', null) as $comment)
+            @include('auth.partials.comment', ['comment' => $comment])
         @endforeach
     </div>
+
 @endforeach
 
 <script>
