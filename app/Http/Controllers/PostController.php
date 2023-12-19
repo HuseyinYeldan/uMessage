@@ -30,4 +30,8 @@ class PostController extends Controller
 
         return view('auth.index', compact('posts'));
     }
+    public function show(Request $request ,Post $post)
+    {
+        return view('auth.post.show', compact('post'));
+    }
 }

@@ -4,7 +4,7 @@
 
     <div class="w-full flex justify-center items-center flex-col">
         <div class="w-3/5 lg:w-full">
-            <div class="flex mb-4 flex-col shadow-md">
+            <div class="flex mb-4 flex-col shadow-md p-4">
                 <h2 class="text-4xl font-bold text-center">{{ '@' . $user->username }}</h2>
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
                     @include('auth._posts')

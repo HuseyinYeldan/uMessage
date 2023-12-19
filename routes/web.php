@@ -29,6 +29,8 @@ Route::middleware('auth')->group(function(){
 
     Route::post('/comment', [CommentController::class, 'commentStore'])->name('post.comment');
     Route::post('/reply', [CommentController::class, 'replyStore'])->name('post.reply');
+
+    Route::get('/m/{post}', [PostController::class, 'show']);
 });
 
 Route::middleware('guest')->group(function(){
