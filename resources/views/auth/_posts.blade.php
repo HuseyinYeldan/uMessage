@@ -43,7 +43,7 @@
         </div>
 
     </div>
-    <div class="comments duration-300 shadow-inner w-full hidden p-4 bg-white border border-gray-200 rounded-b">
+    <div class="comments duration-300 shadow-inner w-full hidden p-4 bg-white border border-gray-200 rounded-b relative overflow-hidden z-10">
         <div class="mb-2">
             <form action="{{ route('post.comment', ['post' => $post->id]) }}" method="post">
                 @csrf
