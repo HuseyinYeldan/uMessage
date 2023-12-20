@@ -8,7 +8,7 @@
             @if ($comment->created_at != $comment->updated_at)
                 | Edited
             @endif </p>
-        <p class="text-sm ">{{ $comment->content }}</p>
+        <p class="text-sm break-all">{{ $comment->content }}</p>
         <span class="text-xs mt-4 flex items-center">
             <i class="fa-regular fa-heart text-sm mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"
                 class="commentLikeButton"></i> <span>3 likes</span>
