@@ -180,27 +180,6 @@
 
     
     <script>
-        // var profileOther = document.querySelectorAll('.profileOther');
-
-        // profileOther.forEach((button) => {
-        //     button.addEventListener('click', (e) => {
-        //         const menu = e.currentTarget.nextElementSibling;
-
-        //         profileOther.forEach((otherButton) => {
-        //             const otherMenu = otherButton.nextElementSibling;
-        //             if (otherMenu !== menu) {
-        //                 otherMenu.classList.remove('flex');
-        //                 otherMenu.classList.add('hidden');
-        //             }
-        //         });
-
-        //         menu.classList.toggle('hidden');
-        //         menu.classList.toggle('flex');
-
-        //         // Add event listener to close the menu when clicking outside
-        //         document.addEventListener('click', closeMenuOutside);
-        //     });
-        // });
         var profileOther = document.querySelectorAll('.profileOther');
 
         document.addEventListener('click',function(e){

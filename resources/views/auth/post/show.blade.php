@@ -31,7 +31,7 @@
                                     <span> {{ count($post->comments) }} comments</span> </button>
                             </span>
                         </div>
-                        <div class="post-other absolute right-2">
+                        <div class="post-other absolute right-2 z-30">
                             <button class="profileOther w-8 h-8 duration-300 hover:text-purple-600"><i
                                     class="fa-solid fa-ellipsis text-xl relative -z-20"></i></button>
                             <div
