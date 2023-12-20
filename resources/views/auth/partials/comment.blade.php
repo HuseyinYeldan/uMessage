@@ -23,6 +23,25 @@
                 </button>
             </form>
 
+            <div class="post-other absolute right-2 top-2">
+                <button class="profileOther w-8 h-8 duration-300 hover:text-purple-600"><i
+                        class="fa-solid fa-ellipsis text-xl relative -z-20"></i></button>
+                <div
+                    class="absolute hidden w-24 right-0 z-50 rounded flex-col bg-white shadow-md after:w-4 after:h-4 after:bg-gray-500 after:rounded after:absolute after:-top-2 after:right-2 after:rotate-45 after:-z-30">
+                    @if (Auth::user()->id === $comment->user_id)
+                        <form action="{{ route('delete.comment',['comment'=>$comment]) }}" method="post" class="flex justify-center items-center flex-1 text-center ">
+                            <button type="submit" class="w-full rounded-t duration-300 py-2 font-bold text-xs text-white bg-gray-500 hover:bg-red-500">
+                                @csrf
+                                @method('DELETE')
+                                Delete
+                            </button>
+                        </form>
+                    @endif
+                    <a href=""
+                        class="flex rounded-b justify-center items-center flex-1 text-center duration-300 py-2 bg-gray-500 font-bold text-xs text-white hover:bg-blue-500">Report</a>
+                </div>
+            </div>
+
             <button class="replyButton"><i class="fa-regular fa-comment text-sm ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"></i>
                  <span>Reply</span>
             </button>

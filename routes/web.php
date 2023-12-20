@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function(){
     
     Route::post('/comment', [CommentController::class, 'commentStore'])->name('post.comment');
     Route::post('/reply', [CommentController::class, 'replyStore'])->name('post.reply');
+    Route::delete('delete-comment',[CommentController::class, 'destroy'])->name('delete.comment');
 
     Route::post('/like', [LikeController::class, 'store'])->name('like');
 

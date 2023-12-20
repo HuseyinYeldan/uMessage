@@ -32,4 +32,12 @@ class CommentController extends Controller
         Comment::create($data);
         return redirect()->back()->with('success','Your comment has been published.');
     }
+    public function destroy(Request $request){
+        $comment = Comment::with('user')->find($request->comment);
+        if($comment->user_id != Auth::user()->id){
+            return redirect()->back()->with('error',"You don't have permission to do that.");
+        }
+        Comment::destroy($request->comment);
+        return redirect()->back()->with('success','The comment has been deleted.');
+    }
 }
