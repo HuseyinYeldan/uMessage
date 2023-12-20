@@ -26,6 +26,7 @@ Route::middleware('auth')->group(function(){
 
     Route::post('/logout', [SessionController::class, 'destroy']);
     Route::post('/share-post',[PostController::class, 'store'])->name('share.post');
+    Route::delete('delete-post',[PostController::class, 'destroy'])->name('delete.post');
 
     Route::post('/comment', [CommentController::class, 'commentStore'])->name('post.comment');
     Route::post('/reply', [CommentController::class, 'replyStore'])->name('post.reply');

@@ -32,9 +32,13 @@
                         <a href=""
                             class="flex rounded-t justify-center items-center flex-1 text-center duration-300 py-2 bg-gray-500 font-bold text-xs text-white hover:bg-yellow-500 ">Edit
                             Post</a>
-                        <a href=""
-                            class="flex           justify-center items-center flex-1 text-center duration-300 py-2 bg-gray-500 font-bold text-xs text-white hover:bg-red-500">Delete
-                            Post</a>
+                        <form action="{{ route('delete.post',['post'=>$post]) }}" method="post" class="flex justify-center items-center flex-1 text-center ">
+                            <button type="submit" class="w-full duration-300 py-2 font-bold text-xs text-white bg-gray-500 hover:bg-red-500">
+                                @csrf
+                                @method('DELETE')
+                                Delete Post
+                            </button>
+                        </form>
                     @endif
                     <a href=""
                         class="flex rounded-b justify-center items-center flex-1 text-center duration-300 py-2 bg-gray-500 font-bold text-xs text-white hover:bg-blue-500">Report

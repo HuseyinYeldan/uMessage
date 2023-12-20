@@ -34,4 +34,13 @@ class PostController extends Controller
     {
         return view('auth.post.show', compact('post'));
     }
+
+    public function destroy(Request $request,Post $post){
+        $post = Post::with('user')->find($request->post);
+        if($post->user_id != Auth::user()->id){
+            return redirect()->back()->with('error',"You don't have permission to do that.");
+        }
+        Post::destroy($request->post);
+        return redirect('/feed')->with('success','The post has been deleted.');
+    }
 }

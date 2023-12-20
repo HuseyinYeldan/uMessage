@@ -68,6 +68,42 @@
         });
     </script>
 
+<script>
+    let profileOther = document.querySelectorAll('.profileOther');
+
+    profileOther.forEach((button) => {
+        button.addEventListener('click', (e) => {
+            const menu = e.currentTarget.nextElementSibling;
+
+            profileOther.forEach((otherButton) => {
+                const otherMenu = otherButton.nextElementSibling;
+                if (otherMenu !== menu) {
+                    otherMenu.classList.remove('flex');
+                    otherMenu.classList.add('hidden');
+                }
+            });
+
+            menu.classList.toggle('hidden');
+            menu.classList.toggle('flex');
+
+            // Add event listener to close the menu when clicking outside
+            document.addEventListener('click', closeMenuOutside);
+        });
+    });
+
+    function closeMenuOutside(e) {
+        if (!e.target.closest('.post-other')) {
+            profileOther.forEach((button) => {
+                const menu = button.nextElementSibling;
+                menu.classList.remove('flex');
+                menu.classList.add('hidden');
+            });
+
+            document.removeEventListener('click', closeMenuOutside);
+        }
+    }
+</script>
+
 
 
 </x-layout>
