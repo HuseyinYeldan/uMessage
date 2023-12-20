@@ -7,7 +7,7 @@
         <div class="w-3/5 lg:w-full">
             <div class="feed px-[20%] flex flex-col justify-center items-center lg:px-[5%]">
                 @foreach ($users as $user)
-                <div class="post flex w-full mt-8 mb-8 p-4 shadow-md duration-300 rounded hover:ring-2 relative hover:ring-purple-100">
+                <div class="post flex w-full mt-8 p-4 shadow-md duration-300 rounded hover:ring-2 relative hover:ring-purple-100">
                     <img src="/storage/{{ $user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0" alt="">
                 
                     <div class="post-info flex justify-start flex-col">

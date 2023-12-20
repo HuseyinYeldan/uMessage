@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Comment;
 use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
@@ -23,7 +22,7 @@ class PostController extends Controller
     }
     public function index(Request $request)
     {
-        $posts = Post::with('comments.recursiveReplies')->latest()->paginate(5);
+        $posts = Post::with('comments.recursiveReplies')->latest()->paginate(10);
         $likes = Like::all();
         if ($request->ajax()) {
             return response()->json(['html' => view('auth._posts', compact('posts','likes'))->render()]);
