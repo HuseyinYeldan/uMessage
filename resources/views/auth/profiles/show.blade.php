@@ -103,6 +103,66 @@
         }
     }
 </script>
+<script>
+    function toggleComments(post) {
+        const commentsContainer = post.nextElementSibling;
+        // Check if commentsContainer exists
+        if (commentsContainer) {
+            commentsContainer.classList.toggle('hidden');
+        }
+    }
+
+    // Event listener for comment buttons
+    document.addEventListener('click', function(e) {
+        const clickedButton = e.target.closest('.commentButton');
+
+        // Check if the click target is a comment button
+        if (clickedButton) {
+            const post = clickedButton.closest('.post');
+
+            // Check if a post element is found
+            if (post) {
+                toggleComments(post);
+            }
+        }
+    });
+</script>
+
+<script>
+    document.addEventListener('click', function(e) {
+        const clickedButton = e.target.closest('.replyButton');
+        if (clickedButton) {
+            const commentContainer = clickedButton.closest('.comment');
+            const replyForm = commentContainer.querySelector('.replyForm');
+
+            // Close all open reply forms
+            document.querySelectorAll('.replyForm').forEach(form => {
+                if (form !== replyForm) {
+                    form.classList.add('hidden');
+                }
+            });
+
+            if (replyForm) {
+                replyForm.classList.toggle('hidden');
+            }
+        }
+    });
+</script>
+
+
+<script>
+    document.addEventListener('click', function(e) {
+
+        if (e.target.classList.contains('comment')) {
+            e.target.children[1].children[1].classList.toggle('hidden')
+            e.target.children[1].children[2].classList.toggle('hidden')
+            e.target.children[1].children[3].classList.toggle('hidden')
+            e.target.children[0].classList.toggle('h-12')
+            e.target.children[0].classList.toggle('h-8')
+        }
+
+    })
+</script>
 
 
 
