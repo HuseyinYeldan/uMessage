@@ -1,7 +1,5 @@
 @foreach ($posts as $post)
-
         <div class="post flex w-full mt-8 p-4 shadow-md border border-gray-200 duration-300 rounded relative">
-
             <img src="/storage/{{ $post->user->avatar }}" class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0 sticky top-2" alt="">
             <div class="post-info flex justify-start flex-col w-full">
                 <a href="/p/{{ $post->user->username }}"
@@ -14,9 +12,17 @@
                 </p>
                 <a href="/m/{{ $post->id }}" class="py-2"> <p class="text-sm break-all">{{ $post->body }}</p> </a>
                 <span class="text-xs mt-2 flex items-center">
-                    <button class="likeButton flex items-center"> <i
-                            class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
-                        <span>23 likes</span> </button>
+                    <form action="{{ route('like',['isComment'=>0, 'content_id' => $post->id])}}" method="post">
+                        @csrf
+                        <button type="submit" class="likeButton flex items-center"> 
+                                @if (count($post->likes->where('user_id',Auth::user()->id )->where('content_id',$post->id)->where('isComment',0)))
+                                    <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                                    @else
+                                    <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                                @endif
+                            <span> {{ count($post->likes->where('content_id',$post->id)->where('isComment',0)) }} likes</span> 
+                        </button>
+                    </form>
                     <button class="commentButton flex items-center"> <i
                             class="fa-regular fa-comment text-xl ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"></i>
                         <span> {{ count($post->comments) }} comments</span> </button>

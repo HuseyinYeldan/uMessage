@@ -10,8 +10,19 @@
             @endif </p>
         <p class="text-sm break-all">{{ $comment->content }}</p>
         <span class="text-xs mt-4 flex items-center">
-            <i class="fa-regular fa-heart text-sm mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"
-                class="commentLikeButton"></i> <span>3 likes</span>
+            <form action="{{ route('like',['isComment'=>1, 'content_id' => $comment->id])}}" method="post">
+                @csrf
+                <button type="submit">
+                    @if (count($comment->likes->where('user_id',Auth::user()->id )->where('content_id',$comment->id)->where('isComment',1)))
+                    <i class="fa-solid fa-heart text-sm mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                    @else
+                    <i class="fa-regular fa-heart text-sm mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                    @endif
+
+                    <span>{{ count($comment->likes->where('content_id',$comment->id)->where('isComment',1)) }} likes</span>
+                </button>
+            </form>
+
             <button class="replyButton"><i class="fa-regular fa-comment text-sm ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"></i>
                  <span>Reply</span>
             </button>

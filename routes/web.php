@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
@@ -32,6 +33,8 @@ Route::middleware('auth')->group(function(){
     
     Route::post('/comment', [CommentController::class, 'commentStore'])->name('post.comment');
     Route::post('/reply', [CommentController::class, 'replyStore'])->name('post.reply');
+
+    Route::post('/like', [LikeController::class, 'store'])->name('like');
 
     Route::get('/m/{post}', [PostController::class, 'show']);
     Route::get('/m/edit/{post}', [PostController::class, 'edit']);

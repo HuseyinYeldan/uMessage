@@ -23,9 +23,16 @@
                             </p>
                             <p class="text-sm my-2 break-all">{{ $post->body }}</p>
                             <span class="text-xs mt-2 flex items-center">
-                                <button class="likeButton flex items-center"> <i
-                                        class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
-                                    <span>23 likes</span> </button>
+                                <form action="#" method="post">
+                                    <button type="submit" class="likeButton flex items-center"> 
+                                            @if (count($post->likes->where('user_id',Auth::user()->id )->where('content_id',$post->id)->where('isComment',0)))
+                                                <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                                                @else
+                                                <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                                            @endif
+                                        <span> {{ count($post->likes->where('content_id',$post->id)->where('isComment',0)) }} likes</span> 
+                                    </button>
+                                </form>
                                 <button class="commentButton flex items-center"> <i
                                         class="fa-regular fa-comment text-xl ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"></i>
                                     <span> {{ count($post->comments) }} comments</span> </button>
