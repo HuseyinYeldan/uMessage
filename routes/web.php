@@ -25,13 +25,17 @@ Route::middleware('auth')->group(function(){
     Route::get('/p/{user:username}',[ProfileController::class, 'show']);
 
     Route::post('/logout', [SessionController::class, 'destroy']);
+
     Route::post('/share-post',[PostController::class, 'store'])->name('share.post');
     Route::delete('delete-post',[PostController::class, 'destroy'])->name('delete.post');
-
+    Route::put('/update-post', [PostController::class, 'update'])->name('update.post');
+    
     Route::post('/comment', [CommentController::class, 'commentStore'])->name('post.comment');
     Route::post('/reply', [CommentController::class, 'replyStore'])->name('post.reply');
 
     Route::get('/m/{post}', [PostController::class, 'show']);
+    Route::get('/m/edit/{post}', [PostController::class, 'edit']);
+
 });
 
 Route::middleware('guest')->group(function(){

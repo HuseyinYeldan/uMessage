@@ -29,7 +29,7 @@
                 <div
                     class="absolute hidden w-24 rounded flex-col bg-white shadow-md after:w-4 after:h-4 after:bg-gray-500 after:rounded after:absolute after:-top-2 after:left-2 after:rotate-45 after:-z-30">
                     @if (Auth::user()->id === $post->user->id)
-                        <a href=""
+                        <a href="/m/edit/{{ $post->id }}"
                             class="flex rounded-t justify-center items-center flex-1 text-center duration-300 py-2 bg-gray-500 font-bold text-xs text-white hover:bg-yellow-500 ">Edit
                             Post</a>
                         <form action="{{ route('delete.post',['post'=>$post]) }}" method="post" class="flex justify-center items-center flex-1 text-center ">

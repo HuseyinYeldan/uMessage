@@ -34,7 +34,25 @@ class PostController extends Controller
     {
         return view('auth.post.show', compact('post'));
     }
+    public function edit(Request $request, Post $post){
+        return view('auth.post.edit',compact('post'));
+    }
 
+    public function update(Request $request, Post $post){
+        $post = Post::with('user')->find($request->post);
+        if($post->user_id != Auth::user()->id){
+            return redirect()->back()->with('error',"You don't have permission to do that.");
+        }
+        else{
+            $data = $request->validate([
+                'body' => 'required|max:500|min:1',
+            ]);
+
+            $post->update($data);
+            
+            return redirect("/m/$post->id")->with('success','Post has been updated.');
+        }
+    }
     public function destroy(Request $request,Post $post){
         $post = Post::with('user')->find($request->post);
         if($post->user_id != Auth::user()->id){
