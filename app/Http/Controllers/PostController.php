@@ -22,13 +22,12 @@ class PostController extends Controller
     }
     public function index(Request $request)
     {
-        $posts = Post::with('comments.recursiveReplies')->latest()->paginate(10);
-        $likes = Like::all();
+        $posts = Post::with(['comments.replies','comments.recursiveReplies','comments.user','user','comments.likes','likes'])->latest()->paginate(10);
         if ($request->ajax()) {
-            return response()->json(['html' => view('auth._posts', compact('posts','likes'))->render()]);
+            return response()->json(['html' => view('auth._posts', compact('posts'))->render()]);
         }
 
-        return view('auth.index', compact('posts','likes'));
+        return view('auth.index', compact('posts'));
     }
     public function show(Request $request ,Post $post)
     {

@@ -19,7 +19,7 @@
                     <i class="fa-regular fa-heart text-sm mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
                     @endif
 
-                    <span>{{ count($comment->likes->where('content_id',$comment->id)->where('isComment',1)) }} likes</span>
+                    <span>{{ number_format(count($comment->likes->where('content_id',$comment->id)->where('isComment',1))) }} likes</span>
                 </button>
             </form>
 

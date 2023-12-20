@@ -20,12 +20,12 @@
                                     @else
                                     <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
                                 @endif
-                            <span> {{ count($post->likes->where('content_id',$post->id)->where('isComment',0)) }} likes</span> 
+                            <span> {{ number_format(count($post->likes->where('content_id',$post->id)->where('isComment',0))) }} likes</span> 
                         </button>
                     </form>
                     <button class="commentButton flex items-center"> <i
                             class="fa-regular fa-comment text-xl ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"></i>
-                        <span> {{ count($post->comments) }} comments</span> </button>
+                        <span> {{ number_format(count($post->comments)) }} comments</span> </button>
                 </span>
             </div>
     
