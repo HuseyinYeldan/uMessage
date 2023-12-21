@@ -42,7 +42,7 @@
             <button class="profileOther w-8 h-8 duration-300 hover:text-purple-600"><i
                     class="fa-solid fa-ellipsis text-xl relative -z-20"></i></button>
             <div
-                class="absolute hidden w-24 rounded flex-col bg-white shadow-md after:w-4 after:h-4 after:bg-gray-500 after:rounded after:absolute after:-top-2 after:left-2 after:rotate-45 after:-z-30">
+                class="absolute hidden w-24 right-0 rounded flex-col bg-white shadow-md after:w-4 after:h-4 after:bg-gray-500 after:rounded after:absolute after:-top-2 after:right-2 after:rotate-45 after:-z-30">
                 @if (Auth::user()->id === $post->user->id)
                     <a href="/m/edit/{{ $post->id }}"
                         class="flex rounded-t justify-center items-center flex-1 text-center duration-300 py-2 bg-gray-500 font-bold text-xs text-white hover:bg-yellow-500 ">Edit
@@ -72,7 +72,7 @@
                 <a href="/p/{{ Auth::user()->username }}" class="flex mb-2 items-center w-fit"><img
                         src="/storage/{{ Auth::user()->avatar }}"
                         class="w-8 h-8 shadow-md rounded-full flex-shrink-0 mr-2 bg-white sticky top-2" alt="">
-                    <span class="duration-300 font-bold hover:text-purple-700"> {{ '@' . Auth::user()->username }}
+                    <span class="duration-300 text-sm font-bold hover:text-purple-700"> {{ '@' . Auth::user()->username }}
                     </span>
                 </a>
                 <textarea name="content" placeholder="Comment to this post" maxlength="500"

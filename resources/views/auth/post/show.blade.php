@@ -8,7 +8,7 @@
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
 
                     <div
-                        class="post flex w-full mt-8 p-4 shadow-md border border-gray-200 duration-300 rounded relative">
+                        class="post flex w-full p-4 shadow-md border border-gray-200 duration-300 rounded relative">
                         <img src="/storage/{{ $post->user->avatar }}"
                             class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0 sticky top-2" alt="">
 
@@ -51,7 +51,7 @@
                             <button class="profileOther w-8 h-8 duration-300 hover:text-purple-600"><i
                                     class="fa-solid fa-ellipsis text-xl relative -z-20"></i></button>
                             <div
-                                class="absolute hidden w-24 rounded flex-col bg-white shadow-md after:w-4 after:h-4 after:bg-gray-500 after:rounded after:absolute after:-top-2 after:left-2 after:rotate-45 after:-z-30">
+                                class="absolute hidden w-24 right-0 rounded flex-col bg-white shadow-md after:w-4 after:h-4 after:bg-gray-500 after:rounded after:absolute after:-top-2 after:right-2 after:rotate-45 after:-z-30">
                                 @if (Auth::user()->id === $post->user->id)
                                     <a href="/m/edit/{{ $post->id }}"
                                         class="flex rounded-t justify-center items-center flex-1 text-center duration-300 py-2 bg-gray-500 font-bold text-xs text-white hover:bg-yellow-500 ">Edit
@@ -82,7 +82,7 @@
                                 <a href="/p/{{ Auth::user()->username }}" class="flex mb-2 items-center w-fit"><img
                                         src="/storage/{{ Auth::user()->avatar }}"
                                         class="w-8 h-8 shadow-md rounded-full flex-shrink-0 mr-2 bg-white"
-                                        alt=""> <span class="duration-300 font-bold hover:text-purple-700">
+                                        alt=""> <span class="duration-300 text-sm font-bold hover:text-purple-700">
                                         {{ '@' . Auth::user()->username }} </span> </a>
                                 <textarea name="content" placeholder="Comment to this post" maxlength="500"
                                     class="border outline-none focus:border-purple-300 placeholder:text-sm text-sm resize-none w-full p-2"></textarea>

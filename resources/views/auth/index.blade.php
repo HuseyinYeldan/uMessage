@@ -5,13 +5,16 @@
     <div class="w-full flex justify-center items-center flex-col">
         <div class="w-3/5 lg:w-full">
 
-            <div class="feed px-[20%] flex flex-col justify-center items-center lg:px-[5%]">
-                <label for="body" class="text-sm font-bold">Share your message</label>
-                <p class="text-xs">You are posting as <span class="font-bold">{{ Auth::user()->username }}</span> </p>
+            <div class="feed px-[20%] flex flex-col lg:px-[5%]">
+                <label for="body" class="text-sm text-center font-bold flex justify-center items-center">Share your message with <span class="cursive text-purple-600 font-bold text-xl ml-1"> uMessage</span> </label>
+                <a href="/p/{{ Auth::user()->username }}" class="text-sm w-100 flex items-center">
+                    <img src="/storage/{{ Auth::user()->avatar }}" class="w-8 h-8 mr-1 aspect-square rounded-full" alt="">
+                    <span class="font-bold">{{ Auth::user()->username }}</span> 
+                </a>
 
                 <form action="/share-post" method="post" class="w-full flex justify-center flex-col" id="sharePost">
                     @csrf
-                    <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500' />
+                    <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500' style="margin-top: 5px" />
                     <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
                     <p class="text-xs h-0 duration-300" id="charCount"></p>
                     <div class="w-full"><x-form.submit buttonText='Share' /></div>

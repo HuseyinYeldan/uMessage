@@ -1,4 +1,4 @@
-<div class="navigation w-full h-12 mb-10 shadow px-[20%] flex justify-between items-center lg:px-[5%]">
+<div class="navigation w-full h-12 mb-8 shadow px-[20%] flex justify-between items-center lg:px-[5%]">
     <a href="/feed" class="cursive text-purple-600 text-2xl font-bold flex-1 md:flex-auto" >uMessage</a>
 
     <nav class="flex-1 md:text-sm md:flex-auto">
