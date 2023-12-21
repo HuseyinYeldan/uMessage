@@ -10,18 +10,21 @@
             @endif </p>
         <p class="text-sm break-all">{{ $comment->content }}</p>
         <span class="text-xs mt-4 flex items-center">
-            <form action="{{ route('like',['isComment'=>1, 'content_id' => $comment->id])}}" method="post">
+            <form action="{{ route('like',['isComment'=>1, 'content_id' => $comment->id])}}" method="post" class="likeForm">
                 @csrf
-                <button type="submit">
-                    @if (count($comment->likes->where('user_id',Auth::user()->id )->where('content_id',$comment->id)->where('isComment',1)))
-                    <i class="fa-solid fa-heart text-sm mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                <button type="submit" class="likeButton flex items-center">
+                    @if (count(
+                            $comment->likes->where('user_id', Auth::user()->id)->where('content_id', $comment->id)->where('isComment', 1)))
+                        <i
+                            class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
                     @else
-                    <i class="fa-regular fa-heart text-sm mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                        <i
+                            class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
                     @endif
-
-                    <span>{{ number_format(count($comment->likes->where('content_id',$comment->id)->where('isComment',1))) }} likes</span>
-                </button>
-            </form>
+                    <span>
+                      <span class="likeCount">  {{ number_format(count($comment->likes->where('content_id', $comment->id)->where('isComment', 1))) }}</span>
+                        likes</span>
+                </button>            </form>
 
             <div class="post-other absolute right-2 top-2">
                 <button class="profileOther w-8 h-8 duration-300 hover:text-purple-600"><i

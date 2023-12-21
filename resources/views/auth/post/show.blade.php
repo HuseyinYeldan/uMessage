@@ -23,17 +23,23 @@
                             </p>
                             <p class="text-sm my-2 break-all">{{ $post->body }}</p>
                             <span class="text-xs mt-2 flex items-center">
-                                <form action="#" method="post">
-                                    <button type="submit" class="likeButton flex items-center"> 
-                                            @if (count($post->likes->where('user_id',Auth::user()->id )->where('content_id',$post->id)->where('isComment',0)))
-                                                <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
-                                                @else
-                                                <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
-                                            @endif
-                                        <span> {{ count($post->likes->where('content_id',$post->id)->where('isComment',0)) }} likes</span> 
+                                <form action="{{ route('like', ['isComment' => 0, 'content_id' => $post->id]) }}" class="likeForm"
+                                    method="post">
+                                    @csrf
+                                    <button type="submit" class="likeButton flex items-center">
+                                        @if (count(
+                                                $post->likes->where('user_id', Auth::user()->id)->where('content_id', $post->id)->where('isComment', 0)))
+                                            <i
+                                                class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                                        @else
+                                            <i
+                                                class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                                        @endif
+                                        <span>
+                                          <span class="likeCount">  {{ number_format(count($post->likes->where('content_id', $post->id)->where('isComment', 0))) }}</span>
+                                            likes</span>
                                     </button>
-                                </form>
-                                <button class="commentButton flex items-center"> <i
+                                </form>                                <button class="commentButton flex items-center"> <i
                                         class="fa-regular fa-comment text-xl ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"></i>
                                     <span> {{ count($post->comments) }} comments</span> </button>
                             </span>
@@ -93,6 +99,40 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function() {
+
+            $('.likeForm').on('submit', function (e) {
+                e.preventDefault();
+                var $form = $(this);
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    type: 'POST',
+
+                    success: function(result) {
+                    result.likeOrNot == 'liked' ? $form.find('.likeButton')[0].innerHTML =
+                    `
+                        <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                        <span>
+                            <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) +1} </span> <span> likes </span>
+                        </span>
+                    ` 
+                    :
+                        $form.find('.likeButton')[0].innerHTML =
+                    `
+                        <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                        <span>
+                            <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) -1} </span> <span> likes </span>
+                        </span>
+                    `
+                    }
+                });
+            });       
+        });
+    </script>
 
     <script>
         let profileOther = document.querySelectorAll('.profileOther');

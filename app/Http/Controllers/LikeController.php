@@ -26,10 +26,10 @@ class LikeController extends Controller
             $data['isComment'] = (int)$request->input('isComment');
             
             Like::create($data);
-            return response()->json(['liked']);
+            return response()->json(['likeOrNot'=>'liked','isComment'=>(int)$request->input('isComment')]);
         }
             $existingLike->delete();
-            return response()->json(['unliked']);
+            return response()->json(['likeOrNot'=>'unliked','isComment'=>(int)$request->input('isComment')]);
 
     }
 }
