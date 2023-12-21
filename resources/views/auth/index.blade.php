@@ -9,13 +9,12 @@
                 <label for="body" class="text-sm font-bold">Share your message</label>
                 <p class="text-xs">You are posting as <span class="font-bold">{{ Auth::user()->username }}</span> </p>
 
-                <form action="/share-post" method="post" class="w-full flex justify-center  flex-col">
+                <form action="/share-post" method="post" class="w-full flex justify-center flex-col" id="sharePost">
                     @csrf
                     <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500' />
                     <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
                     <p class="text-xs h-0 duration-300" id="charCount"></p>
                     <div class="w-full"><x-form.submit buttonText='Share' /></div>
-
                 </form>
 
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
@@ -71,119 +70,172 @@
 
         })
     </script>
-<script>
-    function toggleComments(post) {
-        const commentsContainer = post.nextElementSibling;
-        // Check if commentsContainer exists
-        if (commentsContainer) {
-            commentsContainer.classList.toggle('hidden');
-        }
-    }
-
-    // Event listener for comment buttons
-    document.addEventListener('click', function(e) {
-        const clickedButton = e.target.closest('.commentButton');
-
-        // Check if the click target is a comment button
-        if (clickedButton) {
-            const post = clickedButton.closest('.post');
-
-            // Check if a post element is found
-            if (post) {
-                toggleComments(post);
+    <script>
+        function toggleComments(post) {
+            const commentsContainer = post.nextElementSibling;
+            // Check if commentsContainer exists
+            if (commentsContainer) {
+                commentsContainer.classList.toggle('hidden');
             }
         }
-    });
-</script>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+        // Event listener for comment buttons
+        document.addEventListener('click', function(e) {
+            const clickedButton = e.target.closest('.commentButton');
 
-<script>
-    $(document).ready(function() {
-        var page = 2; // Initial page number
-        var loading = false; // Flag to prevent multiple simultaneous requests
-        var noMoreRecords = false; // Flag to track if there are no more records
+            // Check if the click target is a comment button
+            if (clickedButton) {
+                const post = clickedButton.closest('.post');
 
-        $(window).scroll(function() {
-            if ($(window).scrollTop() + $(window).height() >= $(document).height() && !loading && !
-                noMoreRecords) {
-                loadMoreData(page);
-                page++;
+                // Check if a post element is found
+                if (post) {
+                    toggleComments(post);
+                }
             }
         });
+    </script>
 
-        function loadMoreData(page) {
-            loading = true; // Set loading to true to prevent multiple requests
 
-            $('#loading-indicator').removeClass('hidden'); // Show loading indicator
+    <script>
+        $(document).ready(function() {
+            var page = 2; // Initial page number
+            var loading = false; // Flag to prevent multiple simultaneous requests
+            var noMoreRecords = false; // Flag to track if there are no more records
 
-            $.ajax({
-                url: '?page=' + page,
-                type: 'GET',
-                beforeSend: function() {
-                    // You can add a loading spinner or message here if needed
-                },
-                success: function(data) {
-                    if (data.html == "") {
-                        noMoreRecords = true; // Set flag to true when there are no more records
-                    } else {
-                        $('#posts-container').append(data.html);
-                    }
-                },
-                complete: function() {
-                    $('#loading-indicator').addClass('hidden');
-                    if (noMoreRecords) {
-                        $('#posts-container').append(
-                            `<div id="no-more-records" class="text-gray-600 font-semibold my-4">You've reached to the end.</div>`
-                        );
-                    }
-                    loading = false; // Set loading back to false to allow the next request
-                }
-            });
-        }
-    });
-</script>
-<script>
-    document.addEventListener('click', function (e) {
-        const clickedButton = e.target.closest('.replyButton');
-        if (clickedButton) {
-            const commentContainer = clickedButton.closest('.comment');
-            const replyForm = commentContainer.querySelector('.replyForm');
-            
-            // Close all open reply forms
-            document.querySelectorAll('.replyForm').forEach(form => {
-                if (form !== replyForm) {
-                    form.classList.add('hidden');
+            $(window).scroll(function() {
+                if ($(window).scrollTop() + $(window).height() >= $(document).height() && !loading && !
+                    noMoreRecords) {
+                    loadMoreData(page);
+                    page++;
                 }
             });
 
-            if (replyForm) {
-                replyForm.classList.toggle('hidden');
+            function loadMoreData(page) {
+                loading = true; // Set loading to true to prevent multiple requests
+
+                $('#loading-indicator').removeClass('hidden'); // Show loading indicator
+
+                $.ajax({
+                    url: '?page=' + page,
+                    type: 'GET',
+                    beforeSend: function() {
+                        // You can add a loading spinner or message here if needed
+                    },
+                    success: function(data) {
+                        if (data.html == "") {
+                            noMoreRecords = true; // Set flag to true when there are no more records
+                        } else {
+                            $('#posts-container').append(data.html);
+                        }
+                    },
+                    complete: function() {
+                        $('#loading-indicator').addClass('hidden');
+                        if (noMoreRecords) {
+                            $('#posts-container').append(
+                                `<div id="no-more-records" class="text-gray-600 font-semibold my-4">You've reached to the end.</div>`
+                            );
+                        }
+                        loading = false; // Set loading back to false to allow the next request
+                    }
+                });
             }
-        }
-    });
-</script>
-<script>
-    document.addEventListener('click',function(e){
-        
-        if(e.target.classList.contains('comment')){
-            e.target.children[1].children[1].classList.toggle('hidden')
-            e.target.children[1].children[2].classList.toggle('hidden')
-            e.target.children[1].children[3].classList.toggle('hidden')
-            e.target.children[0].classList.toggle('h-12')
-            e.target.children[0].classList.toggle('h-8')
-        }
-
-    })
-</script>
 
 
-    
+            $('#sharePost').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: '/share-post',
+                    data: jQuery('#sharePost').serialize(),
+                    type: 'POST',
+
+                    success: function(result) {
+                        // Prepend the new post HTML to the posts container
+                        $('#posts-container').prepend(result.html);
+
+                        // Reset form and other elements
+                        $('#sharePost')[0].reset();
+                        let charCount = document.getElementById('charCount');
+                        let progress = document.getElementById('progress');
+                        charCount.innerText = '';
+                        charCount.style.height = '0px';
+                        progress.style.height = '0px';
+                    }
+                });
+            });
+
+            $('#posts-container').on('submit', '.likeForm', function (e) {
+                e.preventDefault();
+                var $form = $(this);
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    type: 'POST',
+
+                    success: function(result) {
+                        result == 'liked' ? $form.find('.likeButton')[0].innerHTML =
+                            `
+                        <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                        <span>
+                            <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) +1} </span> <span> likes </span>
+                        </span>
+                    ` :
+                            $form.find('.likeButton')[0].innerHTML =
+                            `
+                        <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                        <span>
+                            <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) -1} </span> <span> likes </span>
+                        </span>
+                    `
+
+                    }
+                });
+            });
+
+        });
+    </script>
+
+    <script>
+        document.addEventListener('click', function(e) {
+            const clickedButton = e.target.closest('.replyButton');
+            if (clickedButton) {
+                const commentContainer = clickedButton.closest('.comment');
+                const replyForm = commentContainer.querySelector('.replyForm');
+
+                // Close all open reply forms
+                document.querySelectorAll('.replyForm').forEach(form => {
+                    if (form !== replyForm) {
+                        form.classList.add('hidden');
+                    }
+                });
+
+                if (replyForm) {
+                    replyForm.classList.toggle('hidden');
+                }
+            }
+        });
+    </script>
+    <script>
+        document.addEventListener('click', function(e) {
+
+            if (e.target.classList.contains('comment')) {
+                e.target.children[1].children[1].classList.toggle('hidden')
+                e.target.children[1].children[2].classList.toggle('hidden')
+                e.target.children[1].children[3].classList.toggle('hidden')
+                e.target.children[0].classList.toggle('h-12')
+                e.target.children[0].classList.toggle('h-8')
+            }
+
+        })
+    </script>
+
+
+
     <script>
         var profileOther = document.querySelectorAll('.profileOther');
 
-        document.addEventListener('click',function(e){
-            if(e.target.classList.contains('profileOther')){
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('profileOther')) {
                 const menu = e.target.nextElementSibling;
 
                 profileOther.forEach((otherButton) => {

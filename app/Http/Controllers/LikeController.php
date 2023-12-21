@@ -26,10 +26,10 @@ class LikeController extends Controller
             $data['isComment'] = (int)$request->input('isComment');
             
             Like::create($data);
-            return redirect()->back()->with('success',$isComment?'Comment liked':'Post Liked');
+            return response()->json(['liked']);
         }
             $existingLike->delete();
-            return redirect()->back()->with('success',$isComment?'Comment unliked':'Post unliked');
+            return response()->json(['unliked']);
 
     }
 }

@@ -1,4 +1,3 @@
-@foreach ($posts as $post)
     <div class="post flex w-full mt-8 p-4 shadow-md border border-gray-200 duration-300 rounded relative">
         <img src="/storage/{{ $post->user->avatar }}"
             class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0 sticky top-2" alt="">
@@ -84,5 +83,3 @@
             @include('auth.partials.comment', ['comment' => $comment])
         @endforeach
     </div>
-@endforeach
-

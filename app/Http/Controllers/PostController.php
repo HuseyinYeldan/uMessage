@@ -6,6 +6,8 @@ use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\View;
 
 class PostController extends Controller
 {
@@ -17,8 +19,15 @@ class PostController extends Controller
         $data['user_id'] = Auth::user()->id;
 
         Post::create($data);
+        
+        $newPost = Post::with('user')->latest()->first(); // Assuming you have a timestamp for sorting
 
-        return redirect()->back()->with('success','Your message is sent to the world.');
+        // Render the new post view
+        $newPostHtml = View::make('auth.partials._single_post', ['post' => $newPost])->render();
+    
+        return response()->json(['html' => $newPostHtml]);
+    
+        // return redirect()->back()->with('success','Your message is sent to the world.');
     }
     public function index(Request $request)
     {
