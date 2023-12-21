@@ -12,12 +12,14 @@
         <span class="text-xs mt-4 flex items-center">
             <form action="{{ route('like',['isComment'=>1, 'content_id' => $comment->id])}}" method="post" class="likeForm">
                 @csrf
-                <button type="submit" class="likeButton flex items-center">
                     @if (count(
                             $comment->likes->where('user_id', Auth::user()->id)->where('content_id', $comment->id)->where('isComment', 1)))
+                        <button type="submit" class="likeButton liked flex items-center">
+
                         <i
                             class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
                     @else
+                    <button type="submit" class="likeButton flex items-center">
                         <i
                             class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
                     @endif

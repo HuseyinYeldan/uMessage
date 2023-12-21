@@ -18,12 +18,12 @@
                 <form action="{{ route('like', ['isComment' => 0, 'content_id' => $post->id]) }}" class="likeForm"
                     method="post">
                     @csrf
-                    <button type="submit" class="likeButton flex items-center">
-                        @if (count(
-                                $post->likes->where('user_id', Auth::user()->id)->where('content_id', $post->id)->where('isComment', 0)))
+                        @if (count($post->likes->where('user_id', Auth::user()->id)->where('content_id', $post->id)->where('isComment', 0)))
+                            <button type="submit" class="likeButton liked flex items-center">
                             <i
                                 class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
                         @else
+                            <button type="submit" class="likeButton flex items-center">
                             <i
                                 class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
                         @endif

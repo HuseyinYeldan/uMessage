@@ -26,12 +26,15 @@
                                 <form action="{{ route('like', ['isComment' => 0, 'content_id' => $post->id]) }}" class="likeForm"
                                     method="post">
                                     @csrf
-                                    <button type="submit" class="likeButton flex items-center">
                                         @if (count(
                                                 $post->likes->where('user_id', Auth::user()->id)->where('content_id', $post->id)->where('isComment', 0)))
+                                        <button type="submit" class="likeButton liked flex items-center">
+                                            
                                             <i
                                                 class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
                                         @else
+                                        <button type="submit" class="likeButton flex items-center">
+                                           
                                             <i
                                                 class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
                                         @endif
@@ -107,30 +110,38 @@
                 e.preventDefault();
                 var $form = $(this);
 
+                if(!$form.find('.likeButton')[0].classList.contains('liked')){
+                        $form.find('.likeButton')[0].innerHTML =
+                        `
+                            <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                            <span>
+                                <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) +1} </span> <span> likes </span>
+                            </span>
+                        `
+                        $form.find('.likeButton')[0].classList.add('liked')
+
+                    }
+                    else{
+                        $form.find('.likeButton')[0].innerHTML =
+                        `
+                        <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                            <span>
+                                <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) -1} </span> <span> likes </span>
+                            </span>
+                        `
+                        $form.find('.likeButton')[0].classList.remove('liked')
+                    }
+
                 $.ajax({
                     url: $form.attr('action'),
                     data: $form.serialize(),
                     type: 'POST',
 
                     success: function(result) {
-                    result.likeOrNot == 'liked' ? $form.find('.likeButton')[0].innerHTML =
-                    `
-                        <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
-                        <span>
-                            <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) +1} </span> <span> likes </span>
-                        </span>
-                    ` 
-                    :
-                        $form.find('.likeButton')[0].innerHTML =
-                    `
-                        <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
-                        <span>
-                            <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) -1} </span> <span> likes </span>
-                        </span>
-                    `
+
                     }
                 });
-            });       
+            });      
         });
     </script>
 
