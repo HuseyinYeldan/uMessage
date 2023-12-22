@@ -20,7 +20,13 @@ class CommentController extends Controller
         $data['post_id'] = (int)$request->input('post');
 
         Comment::create($data);
-        return redirect()->back()->with('success','Your reply has been published.');
+        $post = Post::where('id',(int)$request->input('post'))->first();
+
+        $newComment = Comment::with('post')->where('user_id',Auth::user()->id)->latest()->first();
+
+        $newCommentHTML = View::make('auth.partials.comment',['comment'=>$newComment,'post'=>$post])->render();
+
+        return response()->json(['html'=>$newCommentHTML]);
     }
     public function commentStore(Request $request)
     {

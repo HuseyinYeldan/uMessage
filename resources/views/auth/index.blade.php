@@ -6,15 +6,18 @@
         <div class="w-3/5 lg:w-full">
 
             <div class="feed px-[20%] flex flex-col lg:px-[5%]">
-                <label for="body" class="text-sm text-center font-bold flex justify-center items-center">Share your message with <span class="cursive text-purple-600 font-bold text-xl ml-1"> uMessage</span> </label>
+                <label for="body" class="text-sm text-center font-bold flex justify-center items-center">Share your
+                    message with <span class="cursive text-purple-600 font-bold text-xl ml-1"> uMessage</span> </label>
                 <a href="/p/{{ Auth::user()->username }}" class="text-sm w-100 flex items-center">
-                    <img src="/storage/{{ Auth::user()->avatar }}" class="w-8 h-8 mr-1 aspect-square rounded-full" alt="">
-                    <span class="font-bold">{{ Auth::user()->username }}</span> 
+                    <img src="/storage/{{ Auth::user()->avatar }}" class="w-8 h-8 mr-1 aspect-square rounded-full"
+                        alt="">
+                    <span class="font-bold">{{ Auth::user()->username }}</span>
                 </a>
 
-                <form action="/share-post" method="post" class="w-full flex justify-center flex-col" id="sharePost">
+                <form action="/share-post" method="post" class="w-full ml flex justify-center flex-col" id="sharePost">
                     @csrf
-                    <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500' style="margin-top: 5px" />
+                    <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500'
+                        style="margin-top: 5px" />
                     <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
                     <p class="text-xs h-0 duration-300" id="charCount"></p>
                     <div class="w-full"><x-form.submit buttonText='Share' /></div>
@@ -143,14 +146,12 @@
                 });
             }
 
-
             $('#sharePost').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
                     url: '/share-post',
                     data: jQuery('#sharePost').serialize(),
                     type: 'POST',
-
                     success: function(result) {
                         // Prepend the new post HTML to the posts container
                         $('#posts-container').prepend(result.html);
@@ -162,31 +163,13 @@
                         charCount.innerText = '';
                         charCount.style.height = '0px';
                         progress.style.height = '0px';
-                        
-                        $('.commentForm').on('submit',function(e){
-                            e.preventDefault();
-                            var $form = $(this);
 
-                            $.ajax({
-                                url: $form.attr('action'),
-                                data: $form.serialize(),
-                                type: 'POST',
-
-                                success: function(result){
-                                    var $newComment = $(result.html);
-
-                                    $newComment.addClass('border-purple-500'); // Adjust the color and width as needed
-                                    $form.closest('.comments').find('.commentForm').after($newComment);
-                                    $form[0].reset()
-                                }
-                            })
-
-                        });
                     }
                 });
             });
 
-            $('.commentForm').on('submit',function(e){
+            // Attach event listener for comment form submissions
+            $('#posts-container').on('submit', '.commentForm', function(e) {
                 e.preventDefault();
                 var $form = $(this);
 
@@ -194,57 +177,85 @@
                     url: $form.attr('action'),
                     data: $form.serialize(),
                     type: 'POST',
-
-                    success: function(result){
-                        var $newComment = $(result.html);
-
-                        $newComment.addClass('border-purple-500'); // Adjust the color and width as needed
-                        $form.closest('.comments').find('.commentForm').after($newComment);
-                        $form[0].reset()
-                    }
-                })
-
-            });
-
-            $('#posts-container').on('submit', '.likeForm', function (e) {
-                e.preventDefault();
-                var $form = $(this);
-
-                if(!$form.find('.likeButton')[0].classList.contains('liked')){
-                        $form.find('.likeButton')[0].innerHTML =
-                        `
-                            <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
-                            <span>
-                                <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) +1} </span> <span> likes </span>
-                            </span>
-                        `
-                        $form.find('.likeButton')[0].classList.add('liked')
-
-                    }
-                    else{
-                        $form.find('.likeButton')[0].innerHTML =
-                        `
-                        <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
-                            <span>
-                                <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) -1} </span> <span> likes </span>
-                            </span>
-                        `
-                        $form.find('.likeButton')[0].classList.remove('liked')
-                    }
-
-                $.ajax({
-                    url: $form.attr('action'),
-                    data: $form.serialize(),
-                    type: 'POST',
-
                     success: function(result) {
-
+                        var $newComment = $(result.html);
+                        $newComment.addClass('border-purple-500');
+                        $form.closest('.comments').find('.commentForm').after($newComment);
+                        $form[0].reset();
                     }
                 });
             });
 
+
+            // Attach event listener for reply form submissions
+            $('#posts-container').on('submit', '.replyForm', function(e) {
+                e.preventDefault();
+                var $form = $(this);
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    type: 'POST',
+                    success: function (result) {
+                        var $newComment = $(result.html);
+                        var $parentComment = $form.closest('.comment');
+
+                        // Get the current margin-left value, parse it, and add 1.5
+                        var currentMLValue = parseFloat($parentComment.css('margin-left')) || 0;
+                        console.log('Parent',$parentComment[0]);
+                        console.log('Current margin',currentMLValue);
+                        currentMLValue += 24;
+                        console.log('Added margin',currentMLValue);
+
+                        // Set the margin-left property for the new comment
+                        $newComment.css('margin-left', currentMLValue + 'px');
+
+                        $parentComment.after($newComment);
+                        $form[0].reset();
+                    }
+
+                });
+            });
+
+            // Attach event listener for like form submissions
+            $('#posts-container').on('submit', '.likeForm', function(e) {
+                e.preventDefault();
+                var $form = $(this);
+
+                var likeButton = $form.find('.likeButton')[0];
+
+                if (!likeButton.classList.contains('liked')) {
+                    likeButton.innerHTML =
+                        `<i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+            <span>
+                <span class='likeCount'>${parseInt($form.find('.likeCount')[0].innerText) + 1} </span> <span> likes </span>
+            </span>`;
+                    likeButton.classList.add('liked');
+                } else {
+                    likeButton.innerHTML =
+                        `<i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+            <span>
+                <span class='likeCount'>${parseInt($form.find('.likeCount')[0].innerText) - 1} </span> <span> likes </span>
+            </span>`;
+                    likeButton.classList.remove('liked');
+                }
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    type: 'POST',
+                    success: function(result) {
+                        // Handle success if needed
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', error);
+                    }
+                });
+            });
         });
     </script>
+
+
 
     <script>
         document.addEventListener('click', function(e) {
