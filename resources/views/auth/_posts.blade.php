@@ -80,7 +80,7 @@
                 <button type="submit" class="bg-purple-500 text-white text-xs px-4 py-2">Comment</button>
             </form>
         </div>
-        @foreach ($post->comments->where('parent_id', null) as $comment)
+        @foreach ($post->comments->where('parent_id', null)->sortByDesc('likes') as $comment)
             @include('auth.partials.comment', ['comment' => $comment])
         @endforeach
     </div>

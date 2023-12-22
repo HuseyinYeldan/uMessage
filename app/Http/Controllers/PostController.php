@@ -47,7 +47,10 @@ class PostController extends Controller
     
         switch ($filter) {
             case 'popular':
-                $posts = $query->withCount('likes')->orderByDesc('likes_count')->paginate(10);
+                $posts = $query
+                    ->withCount('likes')
+                    ->orderByDesc('likes_count')
+                    ->paginate(10);
                 break;
             case 'newest':
                 $posts = $query->latest()->paginate(10);
