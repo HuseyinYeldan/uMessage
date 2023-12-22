@@ -23,6 +23,12 @@
                     <div class="w-full"><x-form.submit buttonText='Share' /></div>
                 </form>
 
+                <div class="flex w-full justify-center items-center mt-4 gap-4">
+                    <x-filter-button name='popular' />
+                    <x-filter-button name='newest' />
+                    <x-filter-button name='oldest' />
+                    <x-filter-button name='controversial' />
+                </div>
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
                     @include('auth._posts')
                     <div id="loading-indicator"

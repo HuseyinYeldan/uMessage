@@ -29,27 +29,44 @@ class PostController extends Controller
     
         // return redirect()->back()->with('success','Your message is sent to the world.');
     }
-    public function index(Request $request)
+    public function index(Request $request, $filter = null)
     {
-        $posts = Post::with([
-            'user:id,username', 
-            'comments.user:id,username', 
-            'comments.likes', 
-            'comments.replies.user:id,username', 
-            'comments.replies.likes', 
-            'comments.replies.recursiveReplies.user:id,username', 
+        $query = Post::with([
+            'user',
+            'comments.user',
+            'comments.likes',
+            'comments.replies.user',
+            'comments.replies.likes',
+            'comments.replies.recursiveReplies.user',
             'comments.replies.recursiveReplies.likes',
             'likes.post',
-            'likes.comment.user:id,username',
-            'likes.comment.replies.user:id,username',
+            'likes.comment.user',
+            'likes.comment.replies.user',
             'likes.comment.replies.likes',
-        ])->latest()->paginate(10);
-        
-                
-                        if ($request->ajax()) {
+        ]);
+    
+        switch ($filter) {
+            case 'popular':
+                $posts = $query->withCount('likes')->orderByDesc('likes_count')->paginate(10);
+                break;
+            case 'newest':
+                $posts = $query->latest()->paginate(10);
+                break;
+            case 'oldest':
+                $posts = $query->oldest()->paginate(10);
+                break;
+            case 'controversial':
+                $posts = $query->withCount('comments')->orderByDesc('comments_count')->paginate(10);
+                break;
+            default:
+                $posts = $query->latest()->paginate(10);
+                break;
+        }
+    
+        if ($request->ajax()) {
             return response()->json(['html' => view('auth._posts', compact('posts'))->render()]);
         }
-
+    
         return view('auth.index', compact('posts'));
     }
     public function show(Request $request ,Post $post)
