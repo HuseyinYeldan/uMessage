@@ -8,11 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Like extends Model
 {
     use HasFactory;
+
     protected $guarded = [];
-    public function post(){
+
+    public function post()
+    {
         return $this->belongsTo(Post::class);
     }
-    public function comment(){
-        return $this->belongsTo(Post::class);
+
+    public function comment()
+    {
+        return $this->belongsTo(Comment::class);
     }
 }

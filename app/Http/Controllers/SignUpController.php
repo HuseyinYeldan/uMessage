@@ -25,7 +25,7 @@ class SignUpController extends Controller
             $attributes['avatar'] = $request->file('avatar')->store('avatar');
         }
         else{
-            $attributes['avatar'] = '/avatar/default.jpg';
+            $attributes['avatar'] = 'default.jpg';
         }        
 
         $user = User::create($attributes);

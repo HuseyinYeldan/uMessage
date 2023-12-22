@@ -31,8 +31,22 @@ class PostController extends Controller
     }
     public function index(Request $request)
     {
-        $posts = Post::with(['comments.replies','comments.recursiveReplies','comments.user','user','comments.likes','likes'])->latest()->paginate(10);
-        if ($request->ajax()) {
+        $posts = Post::with([
+            'user:id,username', 
+            'comments.user:id,username', 
+            'comments.likes', 
+            'comments.replies.user:id,username', 
+            'comments.replies.likes', 
+            'comments.replies.recursiveReplies.user:id,username', 
+            'comments.replies.recursiveReplies.likes',
+            'likes.post',
+            'likes.comment.user:id,username',
+            'likes.comment.replies.user:id,username',
+            'likes.comment.replies.likes',
+        ])->latest()->paginate(10);
+        
+                
+                        if ($request->ajax()) {
             return response()->json(['html' => view('auth._posts', compact('posts'))->render()]);
         }
 
