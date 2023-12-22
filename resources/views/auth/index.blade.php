@@ -162,8 +162,48 @@
                         charCount.innerText = '';
                         charCount.style.height = '0px';
                         progress.style.height = '0px';
+                        
+                        $('.commentForm').on('submit',function(e){
+                            e.preventDefault();
+                            var $form = $(this);
+
+                            $.ajax({
+                                url: $form.attr('action'),
+                                data: $form.serialize(),
+                                type: 'POST',
+
+                                success: function(result){
+                                    var $newComment = $(result.html);
+
+                                    $newComment.addClass('border-purple-500'); // Adjust the color and width as needed
+                                    $form.closest('.comments').find('.commentForm').after($newComment);
+                                    $form[0].reset()
+                                }
+                            })
+
+                        });
                     }
                 });
+            });
+
+            $('.commentForm').on('submit',function(e){
+                e.preventDefault();
+                var $form = $(this);
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    type: 'POST',
+
+                    success: function(result){
+                        var $newComment = $(result.html);
+
+                        $newComment.addClass('border-purple-500'); // Adjust the color and width as needed
+                        $form.closest('.comments').find('.commentForm').after($newComment);
+                        $form[0].reset()
+                    }
+                })
+
             });
 
             $('#posts-container').on('submit', '.likeForm', function (e) {

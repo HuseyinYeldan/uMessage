@@ -20,7 +20,7 @@ class PostController extends Controller
 
         Post::create($data);
         
-        $newPost = Post::with('user')->latest()->first(); // Assuming you have a timestamp for sorting
+        $newPost = Post::with('user')->where('user_id',Auth::user()->id)->latest()->first(); 
 
         // Render the new post view
         $newPostHtml = View::make('auth.partials._single_post', ['post' => $newPost])->render();

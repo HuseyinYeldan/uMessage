@@ -51,8 +51,8 @@
                  <span>Reply</span>
             </button>
         </span>
-        <div class="mb-2 mt-2 replyForm hidden">
-            <form action="{{ route('post.reply', ['comment' => $comment->id, 'post' => $post->id]) }}" method="post">
+        <div class="mb-2 mt-2">
+            <form action="{{ route('post.reply', ['comment' => $comment->id, 'post' => $post->id]) }}" method="post" class="hidden replyForm">
                 @csrf
                 <textarea name="content" placeholder="Reply to this comment" maxlength="500" class="border outline-none focus:border-purple-300 placeholder:text-sm text-sm resize-none w-full p-2"></textarea>
                 <button type="submit" class="bg-purple-500 text-white text-xs px-4 py-2">Reply</button>

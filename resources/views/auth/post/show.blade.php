@@ -7,8 +7,7 @@
             <div class="flex mb-4 flex-col shadow-md">
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
 
-                    <div
-                        class="post flex w-full p-4 shadow-md border border-gray-200 duration-300 rounded relative">
+                    <div class="post flex w-full p-4 shadow-md border border-gray-200 duration-300 rounded relative">
                         <img src="/storage/{{ $post->user->avatar }}"
                             class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0 sticky top-2" alt="">
 
@@ -23,26 +22,27 @@
                             </p>
                             <p class="text-sm my-2 break-all">{{ $post->body }}</p>
                             <span class="text-xs mt-2 flex items-center">
-                                <form action="{{ route('like', ['isComment' => 0, 'content_id' => $post->id]) }}" class="likeForm"
-                                    method="post">
+                                <form action="{{ route('like', ['isComment' => 0, 'content_id' => $post->id]) }}"
+                                    class="likeForm" method="post">
                                     @csrf
-                                        @if (count(
-                                                $post->likes->where('user_id', Auth::user()->id)->where('content_id', $post->id)->where('isComment', 0)))
+                                    @if (count(
+                                            $post->likes->where('user_id', Auth::user()->id)->where('content_id', $post->id)->where('isComment', 0)))
                                         <button type="submit" class="likeButton liked flex items-center">
-                                            
+
                                             <i
                                                 class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
                                         @else
-                                        <button type="submit" class="likeButton flex items-center">
-                                           
-                                            <i
-                                                class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
-                                        @endif
-                                        <span>
-                                          <span class="likeCount">  {{ number_format(count($post->likes->where('content_id', $post->id)->where('isComment', 0))) }}</span>
-                                            likes</span>
+                                            <button type="submit" class="likeButton flex items-center">
+
+                                                <i
+                                                    class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                                    @endif
+                                    <span>
+                                        <span class="likeCount">
+                                            {{ number_format(count($post->likes->where('content_id', $post->id)->where('isComment', 0))) }}</span>
+                                        likes</span>
                                     </button>
-                                </form>                                <button class="commentButton flex items-center"> <i
+                                </form> <button class="commentButton flex items-center"> <i
                                         class="fa-regular fa-comment text-xl ml-4 mr-1 text-slate-700 duration-300 cursor-pointer hover:text-purple-600"></i>
                                     <span> {{ count($post->comments) }} comments</span> </button>
                             </span>
@@ -77,12 +77,14 @@
                     <div
                         class="comments duration-300 shadow-inner w-full  p-4 bg-white border border-gray-200 rounded-b relative overflow-hidden z-10">
                         <div class="mb-2">
-                            <form action="{{ route('post.comment', ['post' => $post->id]) }}" method="post">
+                            <form action="{{ route('post.comment', ['post' => $post->id]) }}" method="post"
+                                class="commentForm">
                                 @csrf
                                 <a href="/p/{{ Auth::user()->username }}" class="flex mb-2 items-center w-fit"><img
                                         src="/storage/{{ Auth::user()->avatar }}"
                                         class="w-8 h-8 shadow-md rounded-full flex-shrink-0 mr-2 bg-white"
-                                        alt=""> <span class="duration-300 text-sm font-bold hover:text-purple-700">
+                                        alt=""> <span
+                                        class="duration-300 text-sm font-bold hover:text-purple-700">
                                         {{ '@' . Auth::user()->username }} </span> </a>
                                 <textarea name="content" placeholder="Comment to this post" maxlength="500"
                                     class="border outline-none focus:border-purple-300 placeholder:text-sm text-sm resize-none w-full p-2"></textarea>
@@ -106,31 +108,30 @@
     <script>
         $(document).ready(function() {
 
-            $('.likeForm').on('submit', function (e) {
+            $('.likeForm').on('submit', function(e) {
                 e.preventDefault();
                 var $form = $(this);
 
-                if(!$form.find('.likeButton')[0].classList.contains('liked')){
-                        $form.find('.likeButton')[0].innerHTML =
+                if (!$form.find('.likeButton')[0].classList.contains('liked')) {
+                    $form.find('.likeButton')[0].innerHTML =
                         `
                             <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
                             <span>
                                 <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) +1} </span> <span> likes </span>
                             </span>
                         `
-                        $form.find('.likeButton')[0].classList.add('liked')
+                    $form.find('.likeButton')[0].classList.add('liked')
 
-                    }
-                    else{
-                        $form.find('.likeButton')[0].innerHTML =
+                } else {
+                    $form.find('.likeButton')[0].innerHTML =
                         `
                         <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
                             <span>
                                 <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) -1} </span> <span> likes </span>
                             </span>
                         `
-                        $form.find('.likeButton')[0].classList.remove('liked')
-                    }
+                    $form.find('.likeButton')[0].classList.remove('liked')
+                }
 
                 $.ajax({
                     url: $form.attr('action'),
@@ -141,7 +142,8 @@
 
                     }
                 });
-            });      
+            });
+
         });
     </script>
 
@@ -181,6 +183,64 @@
         }
     </script>
 
+    <script>
+        $('.commentForm').on('submit', function(e) {
+            e.preventDefault();
+            var $form = $(this);
+
+            $.ajax({
+                url: $form.attr('action'),
+                data: $form.serialize(),
+                type: 'POST',
+
+                success: function(result) {
+                    var $newComment = $(result.html);
+
+                    $newComment.addClass('border-purple-500'); // Adjust the color and width as needed
+                    $form.closest('.comments').find('.commentForm').after($newComment);
+                    $form[0].reset()
+
+
+                                $('.likeForm').on('submit', function(e) {
+                e.preventDefault();
+                var $form = $(this);
+
+                if (!$form.find('.likeButton')[0].classList.contains('liked')) {
+                    $form.find('.likeButton')[0].innerHTML =
+                        `
+                            <i class="fa-solid fa-heart text-xl mr-1 text-red-500 duration-300 cursor-pointer hover:text-red-400"></i>
+                            <span>
+                                <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) +1} </span> <span> likes </span>
+                            </span>
+                        `
+                    $form.find('.likeButton')[0].classList.add('liked')
+
+                } else {
+                    $form.find('.likeButton')[0].innerHTML =
+                        `
+                        <i class="fa-regular fa-heart text-xl mr-1 text-slate-700 duration-300 cursor-pointer hover:text-red-400"></i>
+                            <span>
+                                <span class='likeCount'>${ parseInt($form.find('.likeCount')[0].innerText) -1} </span> <span> likes </span>
+                            </span>
+                        `
+                    $form.find('.likeButton')[0].classList.remove('liked')
+                }
+
+                $.ajax({
+                    url: $form.attr('action'),
+                    data: $form.serialize(),
+                    type: 'POST',
+
+                    success: function(result) {
+
+                    }
+                });
+            });
+                }
+            })
+
+        });
+    </script>
 
     <script>
         function toggleComments(post) {

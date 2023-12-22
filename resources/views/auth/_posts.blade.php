@@ -67,7 +67,7 @@
     <div
         class="comments duration-300 shadow-inner w-full hidden p-4 bg-white border border-gray-200 rounded-b relative overflow-hidden z-10">
         <div class="mb-2">
-            <form action="{{ route('post.comment', ['post' => $post->id]) }}" method="post">
+            <form action="{{ route('post.comment', ['post' => $post->id]) }}" method="post" class="commentForm">
                 @csrf
                 <a href="/p/{{ Auth::user()->username }}" class="flex mb-2 items-center w-fit"><img
                         src="/storage/{{ Auth::user()->avatar }}"
