@@ -21,6 +21,9 @@
                                 @endif
                             </p>
                             <p class="text-sm my-2 break-all">{{ $post->body }}</p>
+                            @if ($post->image)
+                            <img src="/storage/{{ $post->image }}" alt="" class="w-full">
+                        @endif
                             <span class="text-xs mt-2 flex items-center">
                                 <form action="{{ route('like', ['isComment' => 0, 'content_id' => $post->id]) }}"
                                     class="likeForm" method="post">

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id')->constrained()->cascadeOnDelete();
             $table->text('body');
+            $table->text('image')->nullable();
             $table->timestamps();
         });
     }

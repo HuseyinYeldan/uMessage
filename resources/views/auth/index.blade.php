@@ -8,20 +8,27 @@
             <div class="feed px-[20%] flex flex-col lg:px-[5%]">
                 <label for="body" class="text-sm text-center font-bold flex justify-center items-center">Share your
                     message with <span class="cursive text-purple-600 font-bold text-xl ml-1"> uMessage</span> </label>
-                <a href="/p/{{ Auth::user()->username }}" class="text-sm w-100 flex items-center">
+                <a href="/p/{{ Auth::user()->username }}" class="text-sm w-fit flex items-center">
                     <img src="/storage/{{ Auth::user()->avatar }}" class="w-8 h-8 mr-1 aspect-square rounded-full"
                         alt="">
                     <span class="font-bold">{{ Auth::user()->username }}</span>
                 </a>
-
-                <form action="/share-post" method="post" class="w-full ml flex justify-center flex-col" id="sharePost">
+                <div class="w-full mt-1 flex justify-center items-center">
+                    <button class="flex-1 rounded-tl text-sm text-purple-200 font-bold py-1 bg-purple-600 hover:text-purple-200 hover:bg-purple-500 postTypeButton">Text</button>
+                    <button class="flex-1 rounded-tr text-sm text-purple-600 font-bold py-1 bg-purple-200 duration-300 hover:text-purple-200 hover:bg-purple-500 postTypeButton">Image</button>
+                </div>
+                <form action="/share-post" method="post" class="w-full ml flex justify-center flex-col" id="sharePost" enctype="multipart/form-data">
                     @csrf
                     <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500'
-                        style="margin-top: 5px" />
+                        style="margin-top:0" />
+                    <div class="w-full h-52 justify-center items-center relative bg-purple-50 hidden" id="postImageBox">
+                        <input type="file" class="w-full h-full" name="image" id="postImage">
+                    </div>
                     <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
                     <p class="text-xs h-0 duration-300" id="charCount"></p>
                     <div class="w-full"><x-form.submit buttonText='Share' /></div>
                 </form>
+                
 
                 <div class="flex w-full justify-center items-center mt-4 gap-4">
                     <x-filter-button name='popular' />
@@ -44,6 +51,22 @@
 
 
     <script>
+        $('.postTypeButton').on('click', function () {
+            // Check if the clicked button is the "Image" button
+            var isImageButton = $(this).text().trim() === 'Image';
+
+            // Toggle the visibility of the image box based on the button clicked
+            $('#postImageBox').toggleClass('hidden', !isImageButton);
+
+            // Toggle the styling of the buttons
+            $('.postTypeButton').removeClass('bg-purple-600 text-purple-200').addClass('bg-purple-200 text-purple-600');
+            $(this).removeClass('bg-purple-200 text-purple-600').addClass('bg-purple-600 text-purple-200');
+
+
+        });
+
+
+
         let shareTextArea = document.getElementById('body');
         let charCount = document.getElementById('charCount');
         let progress = document.getElementById('progress');
@@ -152,13 +175,19 @@
                 });
             }
 
-            $('#sharePost').on('submit', function(e) {
+            
+            $('#sharePost').on('submit', function (e) {
                 e.preventDefault();
+
+                var formData = new FormData(this);
+
                 $.ajax({
                     url: '/share-post',
-                    data: jQuery('#sharePost').serialize(),
-                    type: 'POST',
-                    success: function(result) {
+                    data: formData,
+                    type: "POST",
+                    contentType: false,
+                    processData: false,
+                    success: function (result) {
                         // Prepend the new post HTML to the posts container
                         $('#posts-container').prepend(result.html);
 
@@ -169,7 +198,6 @@
                         charCount.innerText = '';
                         charCount.style.height = '0px';
                         progress.style.height = '0px';
-
                     }
                 });
             });

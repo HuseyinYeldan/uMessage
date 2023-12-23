@@ -12,6 +12,9 @@
             </p>
             <a href="/m/{{ $post->id }}" class="py-2">
                 <p class="text-sm break-all">{{ $post->body }}</p>
+                @if ($post->image)
+                    <img src="/storage/{{ $post->image }}" alt="" class="w-full">
+                @endif
             </a>
             <span class="text-xs mt-2 flex items-center">
                 <form action="{{ route('like', ['isComment' => 0, 'content_id' => $post->id]) }}" class="likeForm"

@@ -7,28 +7,35 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
 
 class PostController extends Controller
 {
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $data = $request->validate([
             'body' => 'required|max:500|min:1',
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size limit as needed
         ]);
-
+    
+        if ($request->file('image')) {
+            $data['image'] = $request->file('image')->store('posts');
+        }
+    
         $data['user_id'] = Auth::user()->id;
-
+    
         Post::create($data);
-        
-        $newPost = Post::with('user')->where('user_id',Auth::user()->id)->latest()->first(); 
-
+    
+        $newPost = Post::with('user')->where('user_id', Auth::user()->id)->latest()->first();
+    
         // Render the new post view
         $newPostHtml = View::make('auth.partials._single_post', ['post' => $newPost])->render();
     
+        // Return response
         return response()->json(['html' => $newPostHtml]);
-    
-        // return redirect()->back()->with('success','Your message is sent to the world.');
     }
+    
     public function index(Request $request, $filter = null)
     {
         $query = Post::with([
@@ -88,11 +95,23 @@ class PostController extends Controller
         else{
             $data = $request->validate([
                 'body' => 'required|max:500|min:1',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
-
+    
+            // Check if a new image is uploaded
+            if ($request->file('image')) {
+                // Delete the old image file
+                if ($post->image) {
+                    Storage::delete($post->image);
+                }
+                // Store the new image file
+                $data['image'] = $request->file('image')->store('posts');
+            }
+    
+            // Update the post with the new data
             $post->update($data);
-            
-            return redirect("/m/$post->id")->with('success','Post has been updated.');
+    
+            return redirect("/m/$post->id")->with('success', 'Post has been updated.');
         }
     }
     public function destroy(Request $request,Post $post){

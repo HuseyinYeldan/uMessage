@@ -21,10 +21,17 @@
                                     | Edited
                                 @endif
                             </p>
-                            <form action="{{ route('update.post', ['post'=>$post]) }}" method="post">
+                            <form action="{{ route('update.post', ['post'=>$post]) }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 @method('PUT')
                                 <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500'> {{ $post->body }} </x-form.textarea>
+                                @if ($post->image)
+                                <div class="w-full h-52 justify-center items-center relative bg-purple-50 flex" id="postImageBox">
+                                    <input type="file" class="w-full h-full absolute" name="image" id="postImage">
+                                    <img src="/storage/{{ $post->image }}" class="h-full" alt="">
+                                </div>
+
+                                @endif
                                 <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
                                 <p class="text-xs h-0 duration-300" id="charCount"></p>
                                 <div class="w-full"><x-form.submit buttonText='Share' /></div>
