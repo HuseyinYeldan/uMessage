@@ -50,6 +50,7 @@
 .flashAnimation{
     animation: flashAnimationIn 1s  1 cubic-bezier(.15,.86,.13,1.47), flashAnimationOut 1s 4s 1 cubic-bezier(.15,.86,.13,1.47) ;
 }
+
 @keyframes animation-bigger {
     0%{
         width: 30rem;

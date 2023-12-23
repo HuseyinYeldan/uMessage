@@ -15,9 +15,7 @@
                         <p class="text-xs text-gray-400 mt-1"> <i class="fa-regular fa-clock"></i> {{ $user->created_at->isToday() ? 'Account created '. $user->created_at->diffForHumans() : 'Account created at '. $user->created_at->format('F jS Y - H:m')}} </p>
                         <a href="/p/{{ $user->username }}" class="w-fit  px-6 bg-purple-500 py-1 text-center text-white rounded font-bold mt-2 text-sm">User Details</a>
                     </div>
-                    <div class="post-other absolute right-2">
-                        <i class="fa-solid fa-ellipsis cursor-pointer text-xl"></i>
-                    </div>
+
                 </div>
                 @endforeach
                 <div class="mb-4">

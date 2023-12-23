@@ -19,16 +19,17 @@
                 </div>
                 <form action="/share-post" method="post" class="w-full ml flex justify-center flex-col" id="sharePost" enctype="multipart/form-data">
                     @csrf
-                    <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500'
-                        style="margin-top:0" />
-                    <div class="w-full h-52 justify-center items-center relative bg-purple-50 hidden" id="postImageBox">
-                        <input type="file" class="w-full h-full" name="image" id="postImage">
+                    <x-form.textarea name='body' placeHolder="What's on your mind?" maxlength='500' style="margin-top:0" />
+                    <div class="w-full justify-center items-center relative bg-purple-50 hidden" id="postImageBox">
+                        <input type="file" class="w-full h-full absolute z-20 opacity-0 cursor-pointer" name="image" id="postImage" onchange="previewImage(this);">
+                        <i class="fa-solid fa-square-plus z-10 absolute text-4xl w-1/4 h-1/4 text-purple-500 opacity-80 left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2"></i>
+                        <img src="https://via.placeholder.com/2000x1000" class="static top-0 w-full h-full" id="imagePreview" alt="">
                     </div>
+                
                     <div class="progress w-0 h-0 duration-300 bg-purple-600" id="progress"></div>
                     <p class="text-xs h-0 duration-300" id="charCount"></p>
                     <div class="w-full"><x-form.submit buttonText='Share' /></div>
                 </form>
-                
 
                 <div class="flex w-full justify-center items-center mt-4 gap-4">
                     <x-filter-button name='popular' />
@@ -51,6 +52,25 @@
 
 
     <script>
+
+        function previewImage(input) {
+            var preview = document.getElementById('imagePreview');
+            var file = input.files[0];
+            var reader = new FileReader();
+
+            reader.onloadend = function () {
+                preview.src = reader.result;
+            }
+
+            if (file) {
+                reader.readAsDataURL(file);
+                document.getElementById('postImageBox').classList.remove('hidden');
+            } else {
+                preview.src = "https://via.placeholder.com/2000x500";
+                document.getElementById('postImageBox').classList.add('hidden');
+            }
+        }
+
         $('.postTypeButton').on('click', function () {
             // Check if the clicked button is the "Image" button
             var isImageButton = $(this).text().trim() === 'Image';

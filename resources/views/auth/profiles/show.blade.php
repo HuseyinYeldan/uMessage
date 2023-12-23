@@ -4,8 +4,15 @@
 
     <div class="w-full flex justify-center items-center flex-col">
         <div class="w-3/5 lg:w-full">
-            <div class="flex mb-4 flex-col shadow-md p-4">
-                <h2 class="text-4xl font-bold text-center">{{ '@' . $user->username }}</h2>
+            <div class="flex mb-4 flex-col justify-center items-center shadow-md p-4 ">
+                <div class="flex justify-center items-center">
+                    <img src="/storage/{{ $user->avatar }}" class=" w-16 flex-shrink-0 rounded-full mr-2" alt="">
+                    <div class="texts">
+                        <h2 class="text-lg font-bold">{{ '@' . $user->username }}</h2>
+                        <p class="text-xs text-gray-500"><i class="fa-solid fa-scroll mr-1"></i>{{ $user->posts->count() }} posts shared</p>
+                        <p class="text-xs text-gray-500"><i class="fa-solid fa-comment mr-1"></i> {{ $user->comments->count() }} commentes made</p>
+                    </div>
+                </div>
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
                     @include('auth._posts')
                     <div id="loading-indicator"
