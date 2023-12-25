@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\View;
+use Illuminate\Validation\Rule;
 
 class PostController extends Controller
 {
@@ -16,7 +17,7 @@ class PostController extends Controller
     {
         $data = $request->validate([
             'body' => 'required|max:500|min:1',
-            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048|dimensions:max_height=2000', // Adjust file types and size limit as needed
+            'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048', // Adjust file types and size limit as needed
         ]);
     
         if ($request->file('image')) {
@@ -96,7 +97,7 @@ class PostController extends Controller
         else{
             $data = $request->validate([
                 'body' => 'required|max:500|min:1',
-                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048|max_height=2000',
+                'image' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             ]);
     
             // Check if a new image is uploaded
