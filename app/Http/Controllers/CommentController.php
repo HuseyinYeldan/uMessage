@@ -16,7 +16,7 @@ class CommentController extends Controller
             'content' => 'required|max:500|min:1'
         ]);
         $data['user_id'] = Auth::user()->id;
-        $data['parent_id'] = (int)$request->input('comment');;
+        $data['parent_id'] = (int)$request->input('comment');
         $data['post_id'] = (int)$request->input('post');
 
         Comment::create($data);
