@@ -26,6 +26,8 @@ Route::middleware('auth')->group(function(){
 
     Route::get('/profiles',[ProfileController::class, 'index']);
     Route::get('/p/{user:username}',[ProfileController::class, 'show']);
+    Route::get('/settings',[ProfileController::class, 'edit']);
+    Route::post('/profile-update',[ProfileController::class, 'update'])->name('update.profile');
 
     Route::post('/logout', [SessionController::class, 'destroy']);
 
