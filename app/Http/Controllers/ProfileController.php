@@ -38,7 +38,9 @@ class ProfileController extends Controller
                 'username' => 'alpha_dash|min:4|max:24|string|regex:/\w*$/|unique:users,username',
                 'last_username_change' => 'date',
             ]);
-    
+            if(now()->diffInMonths($user->last_username_change) < 1 && $user->last_username_change != NULL){
+                return redirect()->back()->with('error','You can change your username once a month.');
+            }
 
             $data['last_username_change'] = Carbon::now()->toDateTimeString();
             $data['username'] = $request->username;
