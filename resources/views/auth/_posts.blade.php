@@ -1,7 +1,10 @@
 @foreach ($posts as $post)
     <div class="post flex w-full mt-8 p-4 shadow-md border border-gray-200 duration-300 rounded relative">
+        <a href="/p/{{ $post->user->username }}">
+
         <img src="/storage/{{ $post->user->avatar }}"
             class="rounded-full w-12 h-12 aspect-square mr-4 flex-shrink-0 sticky top-2" alt="">
+        </a>
         <div class="post-info flex justify-start flex-col w-full">
             <a href="/p/{{ $post->user->username }}"
                 class="font-semibold duration-300 hover:text-purple-600 w-fit">{{ '@' . $post->user->username }}</a>

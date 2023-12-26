@@ -34,6 +34,9 @@ Route::middleware('auth')->group(function(){
     Route::post('/share-post',[PostController::class, 'store'])->name('share.post');
     Route::delete('delete-post',[PostController::class, 'destroy'])->name('delete.post');
     Route::put('/update-post', [PostController::class, 'update'])->name('update.post');
+
+    Route::post('/feed', [PostController::class, 'search'])->name('search.post');
+    Route::post('/p/{user:username}',[ProfileController::class, 'search'])->name('search.user.post');
     
     Route::post('/comment', [CommentController::class, 'commentStore'])->name('post.comment');
     Route::post('/reply', [CommentController::class, 'replyStore'])->name('post.reply');

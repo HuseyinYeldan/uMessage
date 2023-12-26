@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,6 +21,13 @@ class ProfileController extends Controller
         if($request->ajax()){
             return response()->json(['html'=> view('auth._posts',compact('user','posts'))->render()]);
         }
+        return view('auth.profiles.show', compact('user', 'posts'));
+    }
+
+    public function search(User $user, Request $request){
+        $posts = Post::where('user_id', $user->id);
+        $searchTerm = $request->input('search');
+        $posts = Post::search($searchTerm)->get();
         return view('auth.profiles.show', compact('user', 'posts'));
     }
 

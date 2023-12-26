@@ -1,6 +1,7 @@
 <div class="comment mt-4 flex p-2 rounded shadow-md border border-gray-300 relative z-20 after:absolute after:w-4 after:border-[6px] after:rounded-full after:border-white after:h-full after:-left-5 after:bg-purple-200 after:cursor-pointer">
-    <img src="/storage/{{ $comment->user->avatar }}" class="rounded-full h-12 aspect-square mr-4 flex-shrink-0"
-        alt="">
+    <a href="/p/{{ $post->user->username }}">
+        <img src="/storage/{{ $comment->user->avatar }}" class="rounded-full h-12 aspect-square mr-4 flex-shrink-0" alt="">
+    </a>
     <div class="comment-info">
         <a href="/p/{{ $comment->user->username }}"
             class="font-semibold duration-300 text-xs hover:text-purple-600">{{ '@' . $comment->user->username }}</a>

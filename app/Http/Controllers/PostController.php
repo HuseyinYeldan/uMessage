@@ -124,4 +124,10 @@ class PostController extends Controller
         Post::destroy($request->post);
         return redirect('/feed')->with('success','The post has been deleted.');
     }
+
+    public function search(Request $request){
+        $searchTerm = $request->input('search');
+        $posts = Post::search($searchTerm)->get();
+        return view('auth.index', compact('posts'));
+    }
 }
