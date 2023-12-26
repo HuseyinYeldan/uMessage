@@ -126,8 +126,13 @@ class PostController extends Controller
     }
 
     public function search(Request $request){
+        
+        $request->validate([
+            'search'=> 'max:64|string',
+        ]);
+
         $searchTerm = $request->input('search');
         $posts = Post::search($searchTerm)->get();
-        return view('auth.index', compact('posts'));
+        return view('auth.index', compact('posts', 'searchTerm'));
     }
 }

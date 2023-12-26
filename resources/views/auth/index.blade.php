@@ -39,11 +39,15 @@
                 </div>
                 <form action="{{ route('search.post') }}" method="post" class="flex w-full justify-center items-center mt-4">
                     @csrf
-                    <input type="text" name="search" class="text-sm flex-[15] p-2 outline-none duration-300 focus:border-purple-500 rounded border border-gray-200" placeholder="Search...">
+                    <input type="text" name="search" minlength="1" maxlength="64" class="text-sm flex-[15] p-2 outline-none duration-300 focus:border-purple-500 rounded border border-gray-200" placeholder="Search...">
                     <button id="search" type="submit" class="flex-1"> <div class="fa-solid fa-search"></div> </button>
                 </form>
+                @error('search')
+                <p class="text-xs w-full text-center py-1 bg-red-100 text-red-500">{{ $message }}</p>
+                @enderror
+
                 @if ($posts->isEmpty())
-                    <p class="mt-2 w-full bg-yellow-400 text-yellow-800 font-bold text-sm text-center p-2 rounded"> <i class="fa-solid fa-times"></i> No posts found... </p>
+                    <p class="mt-2 w-full bg-yellow-400 text-yellow-800 font-bold text-sm text-center p-2 rounded break-all"> <i class="fa-solid fa-times"></i> No posts found for {{ $searchTerm }}... </p>
                 @endif
                 <div id="posts-container" class="flex w-full flex-col justify-center items-center">
                     @include('auth._posts')

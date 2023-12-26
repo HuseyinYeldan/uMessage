@@ -25,6 +25,9 @@ class ProfileController extends Controller
     }
 
     public function search(User $user, Request $request){
+        $request->validate([
+            'search'=> 'max:64|string',
+        ]);
         $posts = Post::where('user_id', $user->id);
         $searchTerm = $request->input('search');
         $posts = Post::search($searchTerm)->get();
